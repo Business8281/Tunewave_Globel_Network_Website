@@ -329,7 +329,7 @@ export default function VevoPage({ onNavigate, theme }) {
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
                 <button
-                  onClick={() => onNavigate('/signup')}
+                  onClick={() => { window.location.href = 'https://backstage.tunewavemusic.in/login'; }}
                   style={{
                     padding: '15px 32px',
                     fontSize: '0.98rem',
@@ -639,7 +639,7 @@ export default function VevoPage({ onNavigate, theme }) {
 
             <div style={{ textAlign: 'center', marginTop: 28 }}>
               <button
-                onClick={() => onNavigate('/signup')}
+                onClick={() => { window.location.href = 'https://backstage.tunewavemusic.in/login'; }}
                 className="btn-cyan"
                 style={{
                   padding: '16px 36px',
@@ -1182,7 +1182,7 @@ export default function VevoPage({ onNavigate, theme }) {
             </div>
 
             <button
-              onClick={() => onNavigate('/signup')}
+              onClick={() => onNavigate('/apply')}
               className="btn-cyan"
               style={{
                 padding: '16px 36px',

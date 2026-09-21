@@ -410,12 +410,13 @@ export const PRICING_PLANS = [
   {
     id: "starter",
     name: "Starter",
-    tagline: "For individual artists releasing singles, EPs, and albums.",
-    price: 19,
+    tagline: "Unlimited releases for 1 Artist profile to 150+ stores globally.",
+    price: 799,
     period: "/year",
     popular: false,
-    artists: "1 Artist",
+    artists: "1 Artist Profile",
     features: [
+      "Unlimited releases for 1 Artist profile",
       "Unlimited music releases to 150+ stores",
       "Keep 100% of your royalties & master rights",
       "Free automated Pre-Save SmartLinks",
@@ -431,14 +432,14 @@ export const PRICING_PLANS = [
   {
     id: "pro",
     name: "Pro",
-    tagline: "For accelerating artists and duos demanding sync, publishing, and fast-track support.",
-    price: 59,
+    tagline: "Unlimited releases for 3 Artist profiles with sync, publishing, and fast-track support.",
+    price: 1999,
     period: "/year",
     popular: true,
-    artists: "2 Artists",
+    artists: "3 Artist Profiles",
     features: [
       "Everything in Starter plan",
-      "Unlimited releases for 2 Artist profiles",
+      "Unlimited releases for 3 Artist profiles",
       "Pitch for TV, Film, and Game Sync licensing",
       "Publishing royalty collection (PRS, ASCAP, BMI)",
       "YouTube Content ID & Official Artist Channel (OAC)",
@@ -452,27 +453,22 @@ export const PRICING_PLANS = [
   {
     id: "label",
     name: "Labels",
-    tagline: "Built for independent record labels, managers, and management rosters.",
-    basePrice: 109,
-    sliderTiers: [
-      { count: 5, price: 109 },
-      { count: 10, price: 179 },
-      { count: 15, price: 239 },
-      { count: 20, price: 299 },
-      { count: 30, price: 419 },
-      { count: 40, price: 529 }
-    ],
+    tagline: "Bespoke infrastructure for independent record labels, managers, and rosters.",
+    price: "Need To Apply",
+    period: "",
+    popular: false,
+    artists: "Custom Rosters",
     features: [
       "Everything in Pro plan",
-      "Manage 5 to 40+ artists on a single master account",
+      "Unlimited releases for all roster artists",
       "Custom record label imprint names on all DSPs",
       "Role-based multi-user team seats & permissions",
       "Automated accounting & statement generation",
       "Dedicated A&R and Label Manager",
       "Compilation releases and collaborative albums",
-      "White-label smart analytics links"
+      "Priority DSP editorial pitching & playlist support"
     ],
-    cta: "Choose Labels",
+    cta: "Apply for Label Account",
     badge: "LABEL ROSTER"
   }
 ];

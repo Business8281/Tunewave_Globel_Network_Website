@@ -26,11 +26,35 @@ function AnimatedCounter({ end, duration = 1200, prefix = '', suffix = '' }) {
   return <span>{prefix}{val.toLocaleString()}{suffix}</span>;
 }
 
+const CURRENCIES = {
+  INR: { symbol: '₹', starter: 799, pro: 1999 },
+  USD: { symbol: '$', starter: 9.99, pro: 24.99 },
+  EUR: { symbol: '€', starter: 9.49, pro: 23.49 },
+  GBP: { symbol: '£', starter: 7.99, pro: 19.99 }
+};
+
 export default function PromoPage({ onNavigate, theme = 'dark' }) {
+  const [currency, setCurrency] = useState('INR');
+  const [pricePulse, setPricePulse] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
   const [simTier, setSimTier] = useState(1);
 
   const isLight = theme === 'light';
+  const curr = CURRENCIES[currency] || CURRENCIES.INR;
+
+  const formatPrice = (planKey) => {
+    const val = curr[planKey];
+    if (typeof val === 'number') {
+      return `${curr.symbol}${val.toLocaleString()}`;
+    }
+    return '';
+  };
+
+  const handleCurrencyChange = (code) => {
+    setCurrency(code);
+    setPricePulse(true);
+    setTimeout(() => setPricePulse(false), 400);
+  };
 
   const ctaCardRef = useRef(null);
 
@@ -357,9 +381,18 @@ export default function PromoPage({ onNavigate, theme = 'dark' }) {
                 Playlisting. Online press. Social strategy. Sponsored ads and custom graphics. Launch a high-impact, budget-friendly music marketing campaign managed by our in-house team.
               </p>
 
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'center' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'center', position: 'relative', zIndex: 30 }}>
                 <a 
-                  href="#campaigns"
+                  href="/apply"
+                  id="promo-hero-start-campaign"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigate) {
+                      onNavigate('/apply');
+                    } else {
+                      window.location.href = '/apply';
+                    }
+                  }}
                   className="btn-cyan"
                   style={{
                     padding: '14px 30px',
@@ -368,7 +401,12 @@ export default function PromoPage({ onNavigate, theme = 'dark' }) {
                     textDecoration: 'none',
                     display: 'inline-flex',
                     alignItems: 'center',
-                    gap: 8
+                    gap: 8,
+                    cursor: 'pointer',
+                    border: 'none',
+                    position: 'relative',
+                    zIndex: 50,
+                    pointerEvents: 'auto'
                   }}
                 >
                   <span>Start your campaign</span>
@@ -909,10 +947,10 @@ export default function PromoPage({ onNavigate, theme = 'dark' }) {
       {/* 4. PRICING & PACKAGES SECTION */}
       <section id="pricing" style={{ padding: '80px 0', borderTop: '1px solid var(--tw-line)' }}>
         <div className="container">
-          <div className="reveal-up" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 60px' }}>
+          <div className="reveal-up" style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 40px' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
               <span className="pill-badge" style={{ color: 'var(--tw-cyan)', borderColor: 'var(--tw-cyan)' }}>
-                OUR PROMO PACKAGES
+                TUNEWAVE PRICING
               </span>
             </div>
             <h2 style={{
@@ -922,160 +960,232 @@ export default function PromoPage({ onNavigate, theme = 'dark' }) {
               marginBottom: 16,
               color: 'var(--tw-text-white)'
             }}>
-              We know music marketing inside out. <br />
-              <span style={{ color: isLight ? '#059669' : 'var(--tw-lime)' }}>Pick the campaign that fits.</span>
+              Simple, transparent pricing. <br />
+              <span style={{ color: 'var(--tw-cyan)' }}>Keep 100% of your royalties.</span>
             </h2>
+            <p style={{ fontSize: '1.1rem', color: isLight ? '#475569' : 'var(--tw-text-dim)', maxWidth: '640px', margin: '0 auto 28px', lineHeight: 1.6 }}>
+              Keep 100% of your royalties and rights with our industry-leading artist tools included on every tier.
+            </p>
+
+            {/* Currency Switcher with smooth active highlight */}
+            <div style={{
+              display: 'inline-flex',
+              background: isLight ? '#FFFFFF' : 'var(--tw-bg-card)',
+              border: `1px solid ${isLight ? 'rgba(0,0,0,0.1)' : 'var(--tw-line-bright)'}`,
+              borderRadius: 9999,
+              padding: 5,
+              boxShadow: isLight ? '0 4px 16px rgba(0,0,0,0.04)' : '0 8px 24px rgba(0,0,0,0.3)'
+            }}>
+              {Object.keys(CURRENCIES).map((code) => {
+                const isActive = currency === code;
+                return (
+                  <button
+                    key={code}
+                    onClick={() => handleCurrencyChange(code)}
+                    style={{
+                      padding: '8px 20px',
+                      borderRadius: 9999,
+                      fontSize: '0.85rem',
+                      fontWeight: 800,
+                      color: isActive ? '#040D1A' : (isLight ? '#64748B' : 'var(--tw-text-dim)'),
+                      background: isActive ? 'linear-gradient(135deg, #00F2FE 0%, #00E5FF 100%)' : 'transparent',
+                      boxShadow: isActive ? '0 0 20px rgba(0,229,255,0.4)' : 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+                    }}
+                  >
+                    {code} ({CURRENCIES[code].symbol})
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32, maxWidth: '960px', margin: '0 auto' }}>
-            {/* Standard Promo */}
-            <div className="glass-panel card-shimmer-sweep promo-standard-card" style={{
-              borderRadius: 24,
-              padding: 40,
-              border: '1px solid var(--tw-line)',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between'
-            }}>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+            gap: 32, 
+            maxWidth: '960px', 
+            margin: '0 auto',
+            paddingTop: 20
+          }}>
+            {/* Card 1: Starter */}
+            <div 
+              className="pricing-interactive-card"
+              style={{
+                borderRadius: 24,
+                padding: 42,
+                background: isLight ? '#FFFFFF' : 'var(--tw-bg-card)',
+                border: `1px solid ${isLight ? 'rgba(0,0,0,0.08)' : 'var(--tw-line)'}`,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                position: 'relative',
+                transition: 'all 0.3s ease'
+              }}
+            >
               <div>
-                <span style={{ fontSize: '0.78rem', fontWeight: 800, color: 'var(--tw-cyan)', letterSpacing: '0.08em' }}>
-                  STANDARD CAMPAIGN
-                </span>
-                <h3 style={{ fontSize: '1.8rem', fontWeight: 900, color: "var(--tw-text-white)", margin: '8px 0 16px' }}>Tunewave Promo</h3>
-                
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 12 }}>
-                  <span style={{ fontSize: '3rem', fontWeight: 900, color: "var(--tw-text-white)" }}>$249</span>
-                  <span style={{ color: 'var(--tw-text-dim)', fontSize: '0.9rem', fontWeight: 500 }}>One-time · 4 week campaign</span>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.82rem', fontWeight: 800, color: isLight ? '#64748B' : 'var(--tw-text-muted)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                  // STARTER
                 </div>
-
-                <p style={{ color: 'var(--tw-text-dim)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: 28 }}>
-                  <strong style={{ color: 'var(--tw-text-white)' }}>4 week</strong> all-in-one campaign for artists who want an affordable and effective music marketing package.
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, margin: '18px 0 10px' }}>
+                  <span style={{ 
+                    fontSize: '3.4rem', 
+                    fontWeight: 900, 
+                    color: isLight ? '#0F172A' : 'var(--tw-text-white)', 
+                    fontFamily: "'Space Grotesk', sans-serif",
+                    animation: pricePulse ? 'pricePop 0.35s ease' : 'none'
+                  }}>
+                    {formatPrice('starter')}
+                  </span>
+                  <span style={{ fontSize: '1.05rem', color: isLight ? '#64748B' : 'var(--tw-text-dim)' }}>/year</span>
+                </div>
+                <p style={{ fontSize: '0.92rem', color: isLight ? '#475569' : 'var(--tw-text-dim)', lineHeight: 1.6, marginBottom: 30 }}>
+                  Unlimited releases for 1 Artist profile to 150+ stores globally.
                 </p>
 
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 32, fontSize: '0.92rem', color: 'var(--tw-text-dim)' }}>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center' }}><CheckCircle2 size={16} color="var(--tw-cyan)" /> 4-week structured campaign</li>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center' }}><CheckCircle2 size={16} color="var(--tw-cyan)" /> Playlist pitching across curators</li>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center' }}><CheckCircle2 size={16} color="var(--tw-cyan)" /> 2 guaranteed online blog features</li>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center' }}><CheckCircle2 size={16} color="var(--tw-cyan)" /> Press release written & distributed</li>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center' }}><CheckCircle2 size={16} color="var(--tw-cyan)" /> Tailored Instagram & TikTok plan</li>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center' }}><CheckCircle2 size={16} color="var(--tw-cyan)" /> PR & playlisting strategy guide</li>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center' }}><CheckCircle2 size={16} color="var(--tw-cyan)" /> Custom graphics pack + 2 promo videos</li>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center' }}><CheckCircle2 size={16} color="var(--tw-cyan)" /> Campaign reports & analytics</li>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center' }}><CheckCircle2 size={16} color="var(--tw-cyan)" /> Priority distro & team support</li>
+                <button
+                  onClick={() => onNavigate('/apply')}
+                  style={{ 
+                    width: '100%', padding: '14px', borderRadius: 9999,
+                    background: isLight ? '#F1F5F9' : 'rgba(255, 255, 255, 0.05)',
+                    border: `1px solid ${isLight ? 'rgba(0,0,0,0.1)' : 'var(--tw-line-bright)'}`,
+                    color: isLight ? '#0F172A' : '#FFFFFF', fontWeight: 700, fontSize: '0.92rem',
+                    cursor: 'pointer', marginBottom: 32, transition: 'all 0.25s ease'
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = '#00E5FF'; e.currentTarget.style.background = 'rgba(0, 229, 255, 0.1)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = isLight ? 'rgba(0,0,0,0.1)' : 'var(--tw-line-bright)'; e.currentTarget.style.background = isLight ? '#F1F5F9' : 'rgba(255, 255, 255, 0.05)'; }}
+                >
+                  Choose Starter
+                </button>
+
+                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: isLight ? '#0F172A' : 'var(--tw-text-white)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 18 }}>
+                  What's included:
+                </div>
+                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 14, fontSize: '0.9rem', color: isLight ? '#334155' : 'var(--tw-text-dim)', padding: 0, margin: 0 }}>
+                  {[
+                    "Unlimited releases for 1 Artist profile",
+                    "Unlimited music releases to 150+ stores",
+                    "Keep 100% of your royalties & master rights",
+                    "Free automated Pre-Save SmartLinks",
+                    "Real-time stream analytics & listener trends",
+                    "Free YouTube Content ID protection",
+                    "Free UPC & ISRC codes generated",
+                    "Scheduled custom release dates"
+                  ].map((feat, i) => (
+                    <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(0,229,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <Check size={13} color="#00E5FF" strokeWidth={3} />
+                      </div>
+                      <span>{feat}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
-
-              <button 
-                onClick={() => onNavigate('/signup')}
-                className="btn-cyan"
-                style={{ 
-                  width: '100%', 
-                  padding: '16px', 
-                  fontSize: '1rem', 
-                  fontWeight: 700,
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 8,
-                  cursor: 'pointer'
-                }}
-              >
-                <span>Start your campaign</span>
-                <ArrowRight size={18} />
-              </button>
             </div>
 
-            {/* Promo Plus (Featured) */}
-            <div className="glass-panel card-shimmer-sweep promo-featured-card" style={{
-              borderRadius: 24,
-              padding: 40,
-              border: isLight ? '2px solid #059669' : '2px solid var(--tw-lime)',
-              background: isLight 
-                ? 'linear-gradient(135deg, rgba(5, 150, 105, 0.06), #FFFFFF)' 
-                : 'linear-gradient(135deg, rgba(163, 230, 53, 0.08), rgba(9, 13, 21, 0.98))',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              position: 'relative',
-              overflow: 'visible'
-            }}>
-              <span style={{
+            {/* Card 2: Pro */}
+            <div 
+              className="pricing-interactive-card"
+              style={{
+                borderRadius: 24,
+                padding: 42,
+                background: isLight ? '#FFFFFF' : 'var(--tw-bg-card)',
+                border: '2px solid #00E5FF',
+                boxShadow: '0 0 35px rgba(0, 229, 255, 0.2)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                position: 'relative',
+                overflow: 'visible',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              {/* Most popular badge */}
+              <div style={{
                 position: 'absolute',
-                top: -14,
-                right: 32,
-                fontSize: '0.72rem',
+                top: -16,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'linear-gradient(135deg, #00F2FE 0%, #00E5FF 50%, #0EA5E9 100%)',
+                color: '#040D1A',
+                padding: '6px 20px',
+                borderRadius: 9999,
+                fontSize: '0.76rem',
                 fontWeight: 900,
-                letterSpacing: '0.08em',
-                padding: '6px 14px',
-                borderRadius: 20,
-                background: isLight ? '#059669' : 'var(--tw-lime)',
-                color: isLight ? '#FFFFFF' : '#090D15',
-                boxShadow: isLight ? '0 0 16px rgba(5, 150, 105, 0.4)' : '0 0 20px rgba(163, 230, 53, 0.4)'
+                letterSpacing: '0.1em',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+                zIndex: 10,
+                boxShadow: '0 4px 18px rgba(0, 229, 255, 0.5)',
+                whiteSpace: 'nowrap'
               }}>
-                MOST POPULAR
-              </span>
-
-              <div>
-                <span style={{ fontSize: '0.78rem', fontWeight: 800, color: isLight ? '#059669' : 'var(--tw-lime)', letterSpacing: '0.08em' }}>
-                  ACCELERATED ROLLOUT
-                </span>
-                <h3 style={{ fontSize: '1.8rem', fontWeight: 900, color: "var(--tw-text-white)", margin: '8px 0 16px' }}>Tunewave Promo Plus</h3>
-                
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 12 }}>
-                  <span style={{ fontSize: '3rem', fontWeight: 900, color: isLight ? '#059669' : 'var(--tw-lime)' }}>$399</span>
-                  <span style={{ color: 'var(--tw-text-dim)', fontSize: '0.9rem', fontWeight: 500 }}>One-time · 6 week campaign</span>
-                </div>
-
-                <p style={{ color: 'var(--tw-text-dim)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: 24 }}>
-                  <strong style={{ color: 'var(--tw-text-white)' }}>Everything in Promo, plus</strong> two extra weeks of marketing, paid advertising management, and dedicated publicist care.
-                </p>
-
-                <div style={{ fontSize: '0.85rem', fontWeight: 800, color: isLight ? '#059669' : 'var(--tw-lime)', marginBottom: 12, textTransform: 'uppercase' }}>
-                  Everything in Promo, plus:
-                </div>
-
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 32, fontSize: '0.92rem', color: 'var(--tw-text-dim)' }}>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center', fontWeight: 700, color: "var(--tw-text-white)" }}>
-                    <CheckCircle2 size={16} color={isLight ? '#059669' : 'var(--tw-lime)'} /> 6 Week Campaign (vs 4)
-                  </li>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center', fontWeight: 700, color: "var(--tw-text-white)" }}>
-                    <CheckCircle2 size={16} color={isLight ? '#059669' : 'var(--tw-lime)'} /> TikTok & Instagram Ad Campaign Management
-                  </li>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center', fontWeight: 700, color: "var(--tw-text-white)" }}>
-                    <CheckCircle2 size={16} color={isLight ? '#059669' : 'var(--tw-lime)'} /> Dedicated paid-ads manager & creative testing
-                  </li>
-                  <li style={{ display: 'flex', gap: 10, alignItems: 'center', fontWeight: 700, color: "var(--tw-text-white)" }}>
-                    <CheckCircle2 size={16} color={isLight ? '#059669' : 'var(--tw-lime)'} /> Tunewave Pro Perks & Label Submission Review
-                  </li>
-                </ul>
+                <Star size={14} fill="#040D1A" color="#040D1A" />
+                <span>MOST POPULAR</span>
               </div>
 
-              <button 
-                onClick={() => onNavigate('/signup')}
-                className="btn-cyan"
-                style={{
-                  width: '100%',
-                  padding: '16px',
-                  fontSize: '1rem',
-                  fontWeight: 800,
-                  background: isLight 
-                    ? 'linear-gradient(135deg, #059669 0%, #047857 100%)' 
-                    : 'linear-gradient(135deg, var(--tw-lime) 0%, #15803D 100%)',
-                  color: isLight ? '#FFFFFF' : '#090D15',
-                  border: 'none',
-                  boxShadow: isLight 
-                    ? '0 10px 25px -8px rgba(5, 150, 105, 0.4)' 
-                    : '0 10px 30px -8px rgba(163, 230, 53, 0.4)',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 8,
-                  cursor: 'pointer'
-                }}
-              >
-                <span>Start your campaign</span>
-                <ArrowRight size={18} />
-              </button>
+              <div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.82rem', fontWeight: 800, color: 'var(--tw-cyan)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                  // PRO
+                </div>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, margin: '18px 0 10px' }}>
+                  <span style={{ 
+                    fontSize: '3.4rem', 
+                    fontWeight: 900, 
+                    color: isLight ? '#0F172A' : 'var(--tw-text-white)', 
+                    fontFamily: "'Space Grotesk', sans-serif",
+                    animation: pricePulse ? 'pricePop 0.35s ease' : 'none'
+                  }}>
+                    {formatPrice('pro')}
+                  </span>
+                  <span style={{ fontSize: '1.05rem', color: isLight ? '#64748B' : 'var(--tw-text-dim)' }}>/year</span>
+                </div>
+                <p style={{ fontSize: '0.92rem', color: isLight ? '#475569' : 'var(--tw-text-dim)', lineHeight: 1.6, marginBottom: 30 }}>
+                  Unlimited releases for 3 Artist profiles with sync, publishing, and priority support.
+                </p>
+
+                <button
+                  onClick={() => onNavigate('/apply')}
+                  style={{ 
+                    width: '100%', padding: '15px', borderRadius: 9999,
+                    background: 'linear-gradient(135deg, #00F2FE 0%, #00E5FF 50%, #0EA5E9 100%)',
+                    border: 'none', color: '#040D1A', fontWeight: 900, fontSize: '0.95rem',
+                    letterSpacing: '0.04em', cursor: 'pointer', marginBottom: 32,
+                    boxShadow: '0 0 30px rgba(0,229,255,0.35)', transition: 'all 0.25s ease'
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 0 45px rgba(0,229,255,0.6)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 0 30px rgba(0,229,255,0.35)'; }}
+                >
+                  Choose Pro
+                </button>
+
+                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: isLight ? '#0F172A' : 'var(--tw-text-white)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 18 }}>
+                  Everything in Starter, plus:
+                </div>
+                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 14, fontSize: '0.9rem', color: isLight ? '#334155' : 'var(--tw-text-dim)', padding: 0, margin: 0 }}>
+                  {[
+                    { text: "Everything in Starter plan", bold: true },
+                    { text: "Unlimited releases for 3 Artist profiles", bold: true },
+                    { text: "Pitch for TV, Film, and Game Sync licensing", bold: true },
+                    { text: "Publishing royalty collection (PRS, ASCAP, BMI)", bold: false },
+                    { text: "Dedicated priority support (under 4h)", bold: false },
+                    { text: "Fast-lane store delivery (24-48h)", bold: false },
+                    { text: "Daily stream & playlist placement tracking", bold: false },
+                    { text: "Automated team royalty splits calculation", bold: false }
+                  ].map((feat, i) => (
+                    <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(0,229,255,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <Check size={13} color="#00E5FF" strokeWidth={3} />
+                      </div>
+                      <span style={{ fontWeight: feat.bold ? 700 : 400, color: feat.bold ? (isLight ? '#0F172A' : '#FFFFFF') : 'inherit' }}>
+                        {feat.text}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -1443,7 +1553,7 @@ export default function PromoPage({ onNavigate, theme = 'dark' }) {
               </p>
 
               <button 
-                onClick={() => onNavigate('/signup')}
+                onClick={() => onNavigate('/apply')}
                 className="btn-cyan"
                 style={{
                   padding: '18px 44px',
@@ -1663,9 +1773,28 @@ export default function PromoPage({ onNavigate, theme = 'dark' }) {
           box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04) !important;
         }
 
-        [data-theme="light"] .promo-flip-item:hover {
-          border-color: #007EA7 !important;
-          box-shadow: 0 12px 30px -6px rgba(0, 126, 167, 0.18) !important;
+        @keyframes pricePop {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.08); color: #00E5FF; }
+          100% { transform: scale(1); }
+        }
+
+        /* Pricing interactive card styling matching PricingPage */
+        .pricing-interactive-card {
+          border-radius: 24px;
+          background: ${isLight ? '#FFFFFF' : 'var(--tw-bg-card)'};
+          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+          position: relative;
+        }
+        .pricing-interactive-card:hover {
+          box-shadow: 0 20px 45px rgba(0, 229, 255, 0.22) !important;
+          border-color: rgba(0, 229, 255, 0.7) !important;
+          transform: translateY(-4px);
+        }
+
+        [data-theme="light"] .pricing-interactive-card {
+          background: #FFFFFF !important;
+          border-color: rgba(0, 0, 0, 0.08) !important;
         }
       `}</style>
     </div>

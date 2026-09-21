@@ -174,14 +174,20 @@
   color: #FFFFFF !important;
 }
 
-.dark-inverted-section p {
+.dark-inverted-section p,
+[data-theme="light"] .dark-inverted-section p,
+[data-theme="light"] .glass-panel.dark-inverted-section p {
   color: rgba(255, 255, 255, 0.85) !important;
 }
 
+.dist-platform-eyebrow,
+[data-theme="light"] .dist-platform-eyebrow,
+[data-theme="light"] .glass-panel .dist-platform-eyebrow,
 .dark-inverted-section [style*="color: #00E5FF"],
 .dark-inverted-section [style*="color: var(--tw-cyan)"] {
   color: #00E5FF !important;
-  text-shadow: 0 0 12px rgba(0, 229, 255, 0.45) !important;
+  -webkit-text-fill-color: #00E5FF !important;
+  text-shadow: 0 0 12px rgba(0, 229, 255, 0.45), 0 1px 8px rgba(0,0,0,0.8) !important;
 }
 
 [data-theme="light"] [style*="color: #CCFF00"],
@@ -2582,10 +2588,11 @@ html:not([data-theme="light"]) .a3-logo-img,
 }
 
 /* 3D Floating Holographic Elements */
-.promo-3d-float-layer {
+.promo-3d-float-layer,
+.promo-3d-float-layer * {
   position: absolute;
   inset: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   z-index: 4;
   transform-style: preserve-3d;
 }
@@ -2703,21 +2710,12 @@ html:not([data-theme="light"]) .a3-logo-img,
 .promo-hero-content {
   position: relative;
   z-index: 10;
-  transform-style: preserve-3d;
-  transform: translate3d(0, 0, 30px);
 }
 
 .promo-hero-text-col {
   position: relative;
   z-index: 12;
   opacity: 1 !important;
-  transform-style: preserve-3d;
-  transform: translate3d(
-    calc(var(--tilt-x, 0) * 8px),
-    calc(var(--tilt-y, 0) * 6px),
-    20px
-  );
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   animation: promoHeroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 
@@ -3506,13 +3504,6 @@ html:not([data-theme="light"]) .a3-logo-img,
 .playlists-hero-3d-content {
   position: relative;
   z-index: 10;
-  transform-style: preserve-3d;
-  transform: translate3d(
-    calc(var(--sp-tilt-x, 0) * 12px),
-    calc(var(--sp-tilt-y, 0) * 9px),
-    30px
-  );
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   text-align: center;
 }
 

@@ -50,13 +50,36 @@ const SOCIALS = [
 /* ─── Nav link columns ──────────────────────────────────────── */
 const NAV_COLS = [
   {
-    heading: 'Platform',
+    heading: 'Distribute',
     links: [
-      { label: 'Distribution',   path: '/distribute'  },
-      { label: 'Publishing',     path: '/publishing'  },
-      { label: 'Learn',          path: '/advice'      },
-      { label: 'Pricing',        path: '/pricing'     },
-      { label: 'FAQ',            path: '/advice'      },
+      { label: 'Music Distribution',       path: '/distribute'  },
+      { label: 'Music Video Distribution', path: '/sell-your-music/vevo' },
+      { label: 'Free Pre-Save Links',      path: '/distribute'  },
+      { label: 'Beatport Label Setup',     path: '/distribute'  },
+      { label: 'Publishing',               path: '/publishing'  },
+      { label: 'Learn',                    path: '/advice'      },
+      { label: 'Pricing',                  path: '/pricing'     },
+      { label: 'FAQ',                      path: '/advice'      },
+    ]
+  },
+  {
+    heading: 'Monetize',
+    links: [
+      { label: 'Publishing Administration', path: '/publishing' },
+      { label: 'Sync Licensing Briefs',     path: '/sync'       },
+      { label: 'YouTube Content ID',        path: '/tools/youtube-content-id' },
+      { label: 'AI Music Protection',        path: '/monetize'   },
+      { label: 'Automated Splits',           path: '/monetize'   },
+    ]
+  },
+  {
+    heading: 'Grow',
+    links: [
+      { label: 'Music Promotion',            path: '/promo'      },
+      { label: 'Editorial Playlist Pitching',path: '/playlists'  },
+      { label: 'Ad Launcher Engine',         path: '/ad-launcher'},
+      { label: 'Promo Packages',             path: '/promo'      },
+      { label: 'Spotify Pitching',           path: '/playlists'  },
     ]
   },
   {
@@ -64,9 +87,8 @@ const NAV_COLS = [
     links: [
       { label: 'About',          path: '/about'       },
       { label: 'Enterprise',     path: '/enterprise'  },
-      { label: 'Contact',        path: '/contact'     },
-      { label: 'Login',          path: '/login'       },
-      { label: 'Sign Up',        path: '/signup'      },
+      { label: 'Contact',        path: '/about#send-an-inquiry' },
+      { label: 'Login',          path: 'https://backstage.tunewavemusic.in/login' },
     ]
   },
   {
@@ -254,74 +276,6 @@ export default function Footer({ onNavigate, theme = 'dark' }) {
           </div>
         ))}
 
-        {/* Extra: Distribute column */}
-        <div>
-          <div style={{
-            fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.11em',
-            textTransform: 'uppercase', color: headingClr, marginBottom: 18,
-          }}>
-            Distribute
-          </div>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 11 }}>
-            {[
-              { label: 'Music Distribution',       path: '/distribute'  },
-              { label: 'Music Video Distribution', path: '/distribute'  },
-              { label: 'AI Audio Mastering',       path: '/distribute'  },
-              { label: 'Free Pre-Save Links',      path: '/distribute'  },
-              { label: 'Beatport Label Setup',     path: '/distribute'  },
-            ].map(link => (
-              <li key={link.label}>
-                <FooterLink label={link.label} onClick={() => onNavigate(link.path)} bodyClr={bodyClr} hoverClr={linkHoverClr} />
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Extra: Monetize column */}
-        <div>
-          <div style={{
-            fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.11em',
-            textTransform: 'uppercase', color: headingClr, marginBottom: 18,
-          }}>
-            Monetize
-          </div>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 11 }}>
-            {[
-              { label: 'Publishing Administration', path: '/publishing' },
-              { label: 'Sync Licensing Briefs',     path: '/sync'       },
-              { label: 'YouTube Content ID',         path: '/monetize'   },
-              { label: 'AI Music Protection',        path: '/monetize'   },
-              { label: 'Automated Splits',           path: '/monetize'   },
-            ].map(link => (
-              <li key={link.label}>
-                <FooterLink label={link.label} onClick={() => onNavigate(link.path)} bodyClr={bodyClr} hoverClr={linkHoverClr} />
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Extra: Grow column */}
-        <div>
-          <div style={{
-            fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.11em',
-            textTransform: 'uppercase', color: headingClr, marginBottom: 18,
-          }}>
-            Grow
-          </div>
-          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 11 }}>
-            {[
-              { label: 'Music Promotion',            path: '/promo'      },
-              { label: 'Editorial Playlist Pitching',path: '/playlists'  },
-              { label: 'Ad Launcher Engine',         path: '/ad-launcher'},
-              { label: 'Promo Packages',             path: '/promo'      },
-              { label: 'Spotify Pitching',           path: '/playlists'  },
-            ].map(link => (
-              <li key={link.label}>
-                <FooterLink label={link.label} onClick={() => onNavigate(link.path)} bodyClr={bodyClr} hoverClr={linkHoverClr} />
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
 
       {/* ── COMPANY & HEADQUARTERS INFORMATION STRIP ──────────────── */}

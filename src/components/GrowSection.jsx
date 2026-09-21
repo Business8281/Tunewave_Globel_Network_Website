@@ -718,7 +718,7 @@ export default function GrowSection({ onNavigate, lang = 'en' }) {
           </div>
 
           <button
-            onClick={() => onNavigate('/signup')}
+            onClick={() => onNavigate('/apply')}
             className="btn-cyan"
             style={{ padding: '14px 32px', fontSize: '0.96rem' }}
           >

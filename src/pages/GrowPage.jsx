@@ -26,7 +26,7 @@ export default function GrowPage({ onNavigate }) {
             Tunewave delivers data intelligence, algorithmic momentum, and automated advertising tools designed specifically for modern independent music.
           </p>
 
-          <button onClick={() => onNavigate('/signup')} className="btn-cyan" style={{ padding: '16px 36px' }}>
+          <button onClick={() => onNavigate('/apply')} className="btn-cyan" style={{ padding: '16px 36px' }}>
             <span>Explore Growth Toolkit</span>
             <ArrowRight size={18} className="btn-icon-hover" />
           </button>

@@ -846,7 +846,7 @@ export default function SyncPage({ onNavigate, theme }) {
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
                 <button 
-                  onClick={() => onNavigate('/signup')}
+                  onClick={() => onNavigate('/apply')}
                   className="btn-cyan"
                   style={{
                     padding: '16px 36px',
@@ -1044,7 +1044,7 @@ export default function SyncPage({ onNavigate, theme }) {
 
                 <div style={{ marginTop: 28, paddingTop: 18, borderTop: isLight ? '1px solid rgba(0,0,0,0.06)' : '1px solid rgba(255,255,255,0.06)' }}>
                   <span 
-                    onClick={() => onNavigate('/signup')}
+                    onClick={() => onNavigate('/apply')}
                     style={{ 
                       cursor: 'pointer', 
                       color: isLight ? '#007EA7' : 'var(--tw-lime)', 
@@ -1417,7 +1417,7 @@ export default function SyncPage({ onNavigate, theme }) {
               </p>
 
               <button 
-                onClick={() => onNavigate('/signup')}
+                onClick={() => onNavigate('/apply')}
                 className="btn-cyan"
                 style={{
                   padding: '18px 44px',

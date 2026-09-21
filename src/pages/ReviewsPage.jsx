@@ -877,7 +877,7 @@ export default function ReviewsPage({ onNavigate, theme = "dark" }) {
               </p>
 
               <button 
-                onClick={() => onNavigate && onNavigate("/signup")} 
+                onClick={() => onNavigate && onNavigate("/apply")} 
                 className="btn-glow"
                 style={{
                   padding: "18px 44px",

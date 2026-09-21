@@ -94,6 +94,10 @@ export default function AdLauncherPage({ onNavigate, theme = 'dark' }) {
 
   const handleLaunchCampaign = (e) => {
     e.preventDefault();
+    if (onNavigate) {
+      onNavigate('/apply');
+      return;
+    }
     setCampaignLaunched(true);
     setTimeout(() => {
       setCampaignLaunched(false);
@@ -387,7 +391,6 @@ export default function AdLauncherPage({ onNavigate, theme = 'dark' }) {
                   </label>
                   <input
                     type="url"
-                    required
                     placeholder="https://open.spotify.com/track/... or YouTube link"
                     value={trackLink}
                     onChange={(e) => setTrackLink(e.target.value)}
@@ -439,7 +442,8 @@ export default function AdLauncherPage({ onNavigate, theme = 'dark' }) {
 
                 {/* Submit Button */}
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={() => onNavigate && onNavigate('/apply')}
                   className="btn-cyan"
                   style={{
                     padding: '16px 28px',
@@ -817,10 +821,7 @@ export default function AdLauncherPage({ onNavigate, theme = 'dark' }) {
             </p>
           </div>
           <button
-            onClick={() => {
-              const el = document.getElementById('ad-builder');
-              el?.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={() => onNavigate && onNavigate('/apply')}
             className="btn-cyan"
             style={{ padding: '14px 28px', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: 8 }}
           >
@@ -949,10 +950,7 @@ export default function AdLauncherPage({ onNavigate, theme = 'dark' }) {
 
               <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
                 <button
-                  onClick={() => {
-                    const el = document.getElementById('ad-builder');
-                    el?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                  onClick={() => onNavigate && onNavigate('/apply')}
                   className="btn-cyan ad-cta-primary-btn"
                 >
                   <span>Launch Ad Campaign</span>

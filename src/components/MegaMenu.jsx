@@ -24,7 +24,6 @@ export default function MegaMenu({ data, theme = 'dark', onClose, onNavigate }) 
   return (
     <div 
       className="mega-menu-overlay"
-      onMouseLeave={onClose}
       style={{
         position: 'absolute',
         top: '100%',

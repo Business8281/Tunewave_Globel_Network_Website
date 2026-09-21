@@ -1089,7 +1089,7 @@ export default function PublishingPage({ onNavigate, theme }) {
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
                 <button 
-                  onClick={() => onNavigate('/signup')}
+                  onClick={() => onNavigate('/apply')}
                   className="btn-cyan"
                   style={{
                     padding: '16px 36px',
@@ -1846,7 +1846,7 @@ export default function PublishingPage({ onNavigate, theme }) {
                 </p>
 
                 <button 
-                  onClick={() => onNavigate('/signup')}
+                  onClick={() => onNavigate('/apply')}
                   className="btn-cyan"
                   style={{
                     padding: '16px 36px',
@@ -2493,7 +2493,7 @@ export default function PublishingPage({ onNavigate, theme }) {
               </p>
 
               <button 
-                onClick={() => onNavigate('/signup')}
+                onClick={() => onNavigate('/apply')}
                 className="btn-cyan"
                 style={{
                   padding: '18px 44px',

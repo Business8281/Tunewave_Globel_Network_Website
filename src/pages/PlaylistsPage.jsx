@@ -433,7 +433,16 @@ export default function PlaylistsPage({ onNavigate, theme = 'dark' }) {
           {/* Action CTAs */}
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 54 }}>
             <a
-              href="#playlists-browser"
+              href="/apply"
+              id="playlists-hero-pitch-music"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigate) {
+                  onNavigate('/apply');
+                } else {
+                  window.location.href = '/apply';
+                }
+              }}
               className="btn-cyan"
               style={{ 
                 padding: '16px 36px', 
@@ -443,36 +452,18 @@ export default function PlaylistsPage({ onNavigate, theme = 'dark' }) {
                 alignItems: 'center', 
                 gap: 10, 
                 textDecoration: 'none',
-                boxShadow: isLight ? '0 10px 25px -5px rgba(0, 126, 167, 0.3)' : '0 10px 30px -5px rgba(0, 229, 255, 0.4)'
+                cursor: 'pointer',
+                border: 'none',
+                boxShadow: isLight ? '0 10px 25px -5px rgba(0, 126, 167, 0.3)' : '0 10px 30px -5px rgba(0, 229, 255, 0.4)',
+                position: 'relative',
+                zIndex: 20,
+                pointerEvents: 'auto'
               }}
             >
               <Music size={18} />
               <span>Pitch Your Music</span>
             </a>
-            <a
-              href="https://open.spotify.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="glass-panel"
-              style={{
-                padding: '16px 30px',
-                fontSize: '1rem',
-                fontWeight: 700,
-                color: 'var(--tw-text-white)',
-                borderRadius: 12,
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 10,
-                textDecoration: 'none',
-                border: '1px solid var(--tw-line)',
-                background: isLight ? 'rgba(255, 255, 255, 0.85)' : 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(12px)',
-                transition: 'all 0.25s ease'
-              }}
-            >
-              <span>Follow on Spotify</span>
-              <ExternalLink size={16} />
-            </a>
+
           </div>
 
           {/* 4 Animated Stats Cards */}
@@ -737,7 +728,7 @@ export default function PlaylistsPage({ onNavigate, theme = 'dark' }) {
                 {/* Bottom Actions */}
                 <div style={{ display: 'flex', gap: 10, paddingTop: 16, borderTop: '1px solid var(--tw-line)' }}>
                   <button
-                    onClick={() => setPitchModalPlaylist(pl)}
+                    onClick={() => onNavigate ? onNavigate('/apply') : (window.location.href = '/apply')}
                     className="btn-cyan"
                     style={{
                       flex: 1,
@@ -747,7 +738,9 @@ export default function PlaylistsPage({ onNavigate, theme = 'dark' }) {
                       display: 'inline-flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      gap: 6
+                      gap: 6,
+                      cursor: 'pointer',
+                      border: 'none'
                     }}
                   >
                     <Send size={13} />
@@ -1133,9 +1126,18 @@ export default function PlaylistsPage({ onNavigate, theme = 'dark' }) {
                 Join thousands of independent artists releasing music to 150+ stores worldwide. Members get priority submission review and automated sync pitching.
               </p>
 
-              <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-                <button
-                  onClick={() => onNavigate && onNavigate('/pricing')}
+              <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', position: 'relative', zIndex: 20 }}>
+                <a
+                  href="/apply"
+                  id="playlists-bottom-get-started"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigate) {
+                      onNavigate('/apply');
+                    } else {
+                      window.location.href = '/apply';
+                    }
+                  }}
                   className="btn-cyan"
                   style={{ 
                     padding: '16px 36px', 
@@ -1144,15 +1146,27 @@ export default function PlaylistsPage({ onNavigate, theme = 'dark' }) {
                     display: 'inline-flex', 
                     alignItems: 'center', 
                     gap: 10,
+                    textDecoration: 'none',
                     cursor: 'pointer',
-                    boxShadow: isLight ? '0 10px 25px -5px rgba(0, 126, 167, 0.35)' : '0 10px 30px -5px rgba(0, 229, 255, 0.4)'
+                    border: 'none',
+                    boxShadow: isLight ? '0 10px 25px -5px rgba(0, 126, 167, 0.35)' : '0 10px 30px -5px rgba(0, 229, 255, 0.4)',
+                    pointerEvents: 'auto'
                   }}
                 >
                   <span>Get Started with Tunewave</span>
                   <ArrowRight size={18} className="btn-icon-hover" />
-                </button>
-                <button
-                  onClick={() => setPitchModalPlaylist(PLAYLISTS_DATA[0])}
+                </a>
+                <a
+                  href="/apply"
+                  id="playlists-bottom-pitch-now"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigate) {
+                      onNavigate('/apply');
+                    } else {
+                      window.location.href = '/apply';
+                    }
+                  }}
                   className="glass-panel"
                   style={{
                     padding: '16px 30px',
@@ -1160,15 +1174,19 @@ export default function PlaylistsPage({ onNavigate, theme = 'dark' }) {
                     fontSize: '1rem',
                     fontWeight: 700,
                     color: 'var(--tw-text-white)',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
                     cursor: 'pointer',
                     border: '1px solid var(--tw-line)',
                     background: isLight ? 'rgba(255, 255, 255, 0.85)' : 'rgba(255, 255, 255, 0.05)',
                     backdropFilter: 'blur(12px)',
-                    transition: 'all 0.25s ease'
+                    transition: 'all 0.25s ease',
+                    pointerEvents: 'auto'
                   }}
                 >
                   Pitch Music Now
-                </button>
+                </a>
               </div>
             </div>
           </div>

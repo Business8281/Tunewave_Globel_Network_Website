@@ -31,6 +31,7 @@ export default function Navbar({
   const [expandedMobile, setExpandedMobile] = useState(null);
   const [scrolled, setScrolled] = useState(false);
   const langRef = useRef(null);
+  const headerRef = useRef(null);
 
   const t = TRANSLATIONS[lang]?.nav || TRANSLATIONS.en.nav;
 
@@ -46,6 +47,9 @@ export default function Navbar({
     const handleClickOutside = (e) => {
       if (langRef.current && !langRef.current.contains(e.target)) {
         setLangMenuOpen(false);
+      }
+      if (headerRef.current && !headerRef.current.contains(e.target)) {
+        setActiveMega(null);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -80,6 +84,7 @@ export default function Navbar({
   return (
     <>
       <header
+        ref={headerRef}
         className="header-wrapper"
       style={{
         background: isLight
@@ -138,7 +143,6 @@ export default function Navbar({
                 style={navItemStyle(activeMega === 'distribute' || currentPath === '/distribute' || currentPath === '/sell-your-music')}
                 onClick={() => handleMegaToggle('distribute')}
                 onMouseEnter={(e) => {
-                  setActiveMega('distribute');
                   e.currentTarget.style.color = isLight ? '#007EA7' : '#00E5FF';
                 }}
                 onMouseLeave={(e) => {
@@ -166,7 +170,6 @@ export default function Navbar({
                 style={navItemStyle(activeMega === 'monetize' || currentPath === '/monetize' || currentPath === '/publishing')}
                 onClick={() => handleMegaToggle('monetize')}
                 onMouseEnter={(e) => {
-                  setActiveMega('monetize');
                   e.currentTarget.style.color = isLight ? '#007EA7' : '#00E5FF';
                 }}
                 onMouseLeave={(e) => {
@@ -194,7 +197,6 @@ export default function Navbar({
                 style={navItemStyle(activeMega === 'grow' || currentPath === '/grow')}
                 onClick={() => handleMegaToggle('grow')}
                 onMouseEnter={(e) => {
-                  setActiveMega('grow');
                   e.currentTarget.style.color = isLight ? '#007EA7' : '#00E5FF';
                 }}
                 onMouseLeave={(e) => {
@@ -221,7 +223,6 @@ export default function Navbar({
               style={navItemStyle(currentPath === '/get-signed')}
               onClick={() => { setActiveMega(null); onNavigate('/get-signed'); }}
               onMouseEnter={(e) => {
-                setActiveMega(null);
                 e.currentTarget.style.color = isLight ? '#007EA7' : '#00E5FF';
               }}
               onMouseLeave={(e) => {
@@ -238,7 +239,6 @@ export default function Navbar({
               style={navItemStyle(currentPath === '/pricing')}
               onClick={() => { setActiveMega(null); onNavigate('/pricing'); }}
               onMouseEnter={(e) => {
-                setActiveMega(null);
                 e.currentTarget.style.color = isLight ? '#007EA7' : '#00E5FF';
               }}
               onMouseLeave={(e) => {
@@ -255,7 +255,6 @@ export default function Navbar({
               style={navItemStyle(currentPath === '/reviews')}
               onClick={() => { setActiveMega(null); onNavigate('/reviews'); }}
               onMouseEnter={(e) => {
-                setActiveMega(null);
                 e.currentTarget.style.color = isLight ? '#007EA7' : '#00E5FF';
               }}
               onMouseLeave={(e) => {
@@ -272,7 +271,6 @@ export default function Navbar({
               style={navItemStyle(currentPath === '/advice')}
               onClick={() => { setActiveMega(null); onNavigate('/advice'); }}
               onMouseEnter={(e) => {
-                setActiveMega(null);
                 e.currentTarget.style.color = isLight ? '#007EA7' : '#00E5FF';
               }}
               onMouseLeave={(e) => {
@@ -289,7 +287,6 @@ export default function Navbar({
               style={navItemStyle(currentPath === '/about')}
               onClick={() => { setActiveMega(null); onNavigate('/about'); }}
               onMouseEnter={(e) => {
-                setActiveMega(null);
                 e.currentTarget.style.color = isLight ? '#007EA7' : '#00E5FF';
               }}
               onMouseLeave={(e) => {
@@ -306,7 +303,7 @@ export default function Navbar({
           <div className="tw-nav-actions-wrap" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             {/* Login Button (clean bordered container matching screenshot) */}
             <button
-              onClick={() => onNavigate('/login')}
+              onClick={() => { window.location.href = 'https://backstage.tunewavemusic.in/login'; }}
               className="desktop-nav"
               style={{
                 display: 'none',
@@ -338,7 +335,7 @@ export default function Navbar({
 
             {/* Try For Free Button (Tunewave Cyan Gradient Matching Brand) */}
             <button
-              onClick={() => onNavigate('/signup')}
+              onClick={() => onNavigate('/apply')}
               className="tw-nav-cta-btn"
               style={{
                 display: 'inline-flex',
@@ -1025,7 +1022,7 @@ export default function Navbar({
               </button>
             ))}
             <button
-              onClick={() => { onNavigate('/login'); setMobileMenuOpen(false); }}
+              onClick={() => { window.location.href = 'https://backstage.tunewavemusic.in/login'; setMobileMenuOpen(false); }}
               style={{
                 padding: '12px 16px',
                 textAlign: 'center',
@@ -1045,7 +1042,7 @@ export default function Navbar({
 
           <div style={{ marginTop: 'auto', paddingTop: 16 }}>
             <button
-              onClick={() => { onNavigate('/signup'); setMobileMenuOpen(false); }}
+              onClick={() => { onNavigate('/apply'); setMobileMenuOpen(false); }}
               style={{
                 width: '100%',
                 padding: '14px',

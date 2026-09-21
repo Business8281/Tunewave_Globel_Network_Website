@@ -587,7 +587,7 @@ export default function AdvicePage({ onNavigate, theme }) {
 
               <div style={{ marginTop: 40, paddingTop: 28, borderTop: "1px solid var(--tw-line)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
                 <span style={{ fontSize: "0.88rem", color: "var(--tw-text-dim)" }}>Ready to put this into practice?</span>
-                <button onClick={() => { setSelectedArticle(null); onNavigate && onNavigate("/signup"); }} style={{
+                <button onClick={() => { setSelectedArticle(null); onNavigate && onNavigate("/apply"); }} style={{
                   display: "inline-flex", alignItems: "center", gap: 8,
                   background: "linear-gradient(135deg, #00F2FE 0%, #00E5FF 50%, #0EA5E9 100%)", color: "#040D1A", border: "none",
                   borderRadius: 9999, padding: "12px 24px", fontWeight: 800, fontSize: "0.88rem",

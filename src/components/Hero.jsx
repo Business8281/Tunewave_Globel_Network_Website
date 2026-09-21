@@ -69,7 +69,7 @@ export default function Hero({ onNavigate, lang = 'en' }) {
             {/* Action Buttons (Original buttons, Left-Aligned) */}
             <div className="hero-actions-group hero-anim-fade-up hero-delay-5">
               <button
-                onClick={() => onNavigate('/signup')}
+                onClick={() => onNavigate('/apply')}
                 className="btn-cyan hero-btn-primary"
               >
                 <span>{t.startBtn}</span>

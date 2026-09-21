@@ -1007,7 +1007,7 @@ export default function YouTubeContentIdPage({ onNavigate, theme }) {
 
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
                 <button 
-                  onClick={() => onNavigate('/signup')}
+                  onClick={() => onNavigate('/apply')}
                   className="btn-cyan"
                   style={{
                     padding: '16px 36px',
@@ -1211,7 +1211,7 @@ export default function YouTubeContentIdPage({ onNavigate, theme }) {
 
                 <div className="yt-anim-btn">
                   <button 
-                    onClick={() => onNavigate('/signup')}
+                    onClick={() => onNavigate('/apply')}
                     className="btn-cyan"
                     style={{
                       padding: '14px 32px',
@@ -1424,7 +1424,7 @@ export default function YouTubeContentIdPage({ onNavigate, theme }) {
 
                 <div className="yt-anim-btn">
                   <button 
-                    onClick={() => onNavigate('/signup')}
+                    onClick={() => onNavigate('/apply')}
                     className="btn-cyan"
                     style={{
                       padding: '16px 36px',
@@ -1524,7 +1524,7 @@ export default function YouTubeContentIdPage({ onNavigate, theme }) {
 
                 <div className="yt-anim-btn">
                   <button 
-                    onClick={() => onNavigate('/signup')}
+                    onClick={() => onNavigate('/apply')}
                     className="btn-cyan"
                     style={{
                       padding: '14px 32px',
@@ -1843,7 +1843,7 @@ export default function YouTubeContentIdPage({ onNavigate, theme }) {
 
                 <div style={{ marginTop: 24, paddingTop: 16, borderTop: '1px solid var(--tw-line)' }}>
                   <span 
-                    onClick={() => onNavigate('/signup')}
+                    onClick={() => onNavigate('/apply')}
                     style={{ cursor: 'pointer', color: '#EF4444', fontWeight: 700, fontSize: '0.9rem', display: 'inline-flex', alignItems: 'center', gap: 6 }}
                   >
                     Claim your audio →
@@ -2049,7 +2049,7 @@ export default function YouTubeContentIdPage({ onNavigate, theme }) {
               </p>
 
               <button 
-                onClick={() => onNavigate('/signup')}
+                onClick={() => onNavigate('/apply')}
                 className="btn-cyan"
                 style={{
                   padding: '18px 44px',

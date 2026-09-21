@@ -40,51 +40,53 @@ export default function MonetizeSection({ onNavigate, lang = 'en' }) {
   const [isInView, setIsInView] = useState(false);
   const [hoveredCard, setHoveredCard] = useState(null);
 
-  // 360° 3D Mouse Movement Rotation States
+  // Automatic 3D Card Flip on Hover: 180° back on enter, 0° normal on leave
   const cardContainerRef = useRef(null);
   const [rotY, setRotY] = useState(0);
   const [rotX, setRotX] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isAutoSpinning, setIsAutoSpinning] = useState(false);
   const lastMouseX = useRef(null);
-  const accumulatedAngle = useRef(0);
   const [glarePos, setGlarePos] = useState({ x: 50, y: 50 });
-
-  const handleMouseMove = (e) => {
-    if (!cardContainerRef.current) return;
-    const rect = cardContainerRef.current.getBoundingClientRect();
-    
-    // Normalised position across the card from 0 to 1
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    // Direct progress mapping: moving mouse across the card rotates it 360 degrees in full 3D!
-    const progressX = Math.max(0, Math.min(1, x / rect.width));
-    const targetRotY = progressX * 360;
-    
-    // Vertical tilt for natural 3D perspective depth (-20deg to +20deg)
-    const progressY = Math.max(0, Math.min(1, y / rect.height));
-    const targetRotX = (progressY - 0.5) * -22;
-    
-    setRotY(targetRotY);
-    setRotX(targetRotX);
-    setGlarePos({
-      x: Math.round(progressX * 100),
-      y: Math.round(progressY * 100)
-    });
-  };
 
   const handleMouseEnter = (e) => {
     setIsHovered(true);
-    handleMouseMove(e);
+    setRotY(180);
+    setRotX(0);
+    if (cardContainerRef.current) {
+      const rect = cardContainerRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      setGlarePos({
+        x: Math.round((x / rect.width) * 100),
+        y: Math.round((y / rect.height) * 100)
+      });
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (!cardContainerRef.current || !isHovered || isAutoSpinning) return;
+    const rect = cardContainerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const normX = ((x / rect.width) - 0.5) * 2;
+    const normY = ((y / rect.height) - 0.5) * 2;
+
+    // Smooth subtle 3D tilt around the back side (180°)
+    setRotY(180 - normX * 8);
+    setRotX(normY * -6);
+    setGlarePos({
+      x: Math.round((x / rect.width) * 100),
+      y: Math.round((y / rect.height) * 100)
+    });
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
     lastMouseX.current = null;
-    accumulatedAngle.current = 0;
     setRotY(0);
     setRotX(0);
+    setGlarePos({ x: 50, y: 50 });
   };
 
   const handleSpin360 = (e) => {
@@ -93,23 +95,16 @@ export default function MonetizeSection({ onNavigate, lang = 'en' }) {
     setRotY(prev => prev + 360);
     setTimeout(() => {
       setIsAutoSpinning(false);
-    }, 1000);
+    }, 900);
   };
 
-  const handleTouchStart = (e) => {
-    if (e.touches.length > 0) {
-      lastMouseX.current = e.touches[0].clientX;
-      setIsHovered(true);
-    }
-  };
-
-  const handleTouchMove = (e) => {
-    if (e.touches.length > 0 && lastMouseX.current !== null) {
-      const deltaX = e.touches[0].clientX - lastMouseX.current;
-      accumulatedAngle.current += deltaX * 1.25;
-      setRotY(accumulatedAngle.current);
-      lastMouseX.current = e.touches[0].clientX;
-    }
+  const handleTouchToggle = () => {
+    setIsHovered(prev => {
+      const next = !prev;
+      setRotY(next ? 180 : 0);
+      setRotX(0);
+      return next;
+    });
   };
 
   useEffect(() => {
@@ -353,7 +348,7 @@ export default function MonetizeSection({ onNavigate, lang = 'en' }) {
               transition: 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) 1400ms, opacity 0.65s ease 1400ms'
             }}>
               <button
-                onClick={() => onNavigate('/signup')}
+                onClick={() => onNavigate('/apply')}
                 className="btn-cyan"
               >
                 <span>{t.ctaPrimary}</span>
@@ -381,21 +376,20 @@ export default function MonetizeSection({ onNavigate, lang = 'en' }) {
           gap: 36,
           alignItems: 'center'
         }}>
-          {/* 3D Perspective Stage for Interactive 360° Mouse Movement Rotation */}
+          {/* 3D Perspective Stage: Automatic Flip on Hover */}
           <div 
             ref={cardContainerRef}
+            id="artist-earnings-3d-card"
             onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleMouseLeave}
+            onTouchStart={handleTouchToggle}
             style={{
               perspective: 1400,
               perspectiveOrigin: '50% 50%',
               position: 'relative',
               userSelect: 'none',
-              cursor: isHovered ? 'grabbing' : 'grab',
+              cursor: 'pointer',
               padding: '10px 0'
             }}
           >
@@ -406,9 +400,9 @@ export default function MonetizeSection({ onNavigate, lang = 'en' }) {
                 width: '100%',
                 transformStyle: 'preserve-3d',
                 transform: `rotateX(${rotX}deg) rotateY(${rotY}deg)`,
-                transition: (isHovered && !isAutoSpinning) 
-                  ? 'transform 0.08s ease-out' 
-                  : 'transform 0.85s cubic-bezier(0.16, 1, 0.3, 1)',
+                transition: isAutoSpinning 
+                  ? 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)' 
+                  : 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
                 borderRadius: 24,
                 willChange: 'transform'
               }}
@@ -643,7 +637,7 @@ export default function MonetizeSection({ onNavigate, lang = 'en' }) {
                   letterSpacing: '0.03em'
                 }}>
                   <RotateCw size={12} color="var(--tw-cyan)" />
-                  <span>Move mouse across card to rotate <strong>360°</strong> in 3D</span>
+                  <span>Hover cursor over card to turn to <strong>Back Side</strong> automatically</span>
                 </div>
               </div>
 
@@ -885,37 +879,6 @@ export default function MonetizeSection({ onNavigate, lang = 'en' }) {
                   </div>
                 </div>
 
-                {/* Beautiful Button to Payment / Pricing Page */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onNavigate('/pricing');
-                  }}
-                  className="btn-cyan global-payout-btn"
-                  style={{
-                    width: '100%',
-                    padding: '11px 18px',
-                    fontSize: '0.88rem',
-                    fontWeight: 800,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 8,
-                    borderRadius: 12,
-                    cursor: 'pointer',
-                    border: 'none',
-                    background: 'linear-gradient(135deg, #00E5FF 0%, #00B4D8 50%, #0284C7 100%)',
-                    color: '#080B11',
-                    boxShadow: '0 8px 24px -4px rgba(0, 229, 255, 0.45)',
-                    transition: 'all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)',
-                    position: 'relative',
-                    zIndex: 4
-                  }}
-                >
-                  <CreditCard size={16} />
-                  <span>Go to Payment &amp; Pricing Page</span>
-                  <ArrowRight size={16} className="btn-icon-hover" />
-                </button>
 
                 {/* 2nd Reference UI: Interactive Payment Logos & Instant Checkout Banner */}
                 <div

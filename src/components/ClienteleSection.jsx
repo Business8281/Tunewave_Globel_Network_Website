@@ -1,72 +1,116 @@
-import React, { useState } from 'react';
-import { CheckCircle2, ShieldCheck, Sparkles, Disc3, Radio, ArrowUpRight } from 'lucide-react';
+import React from 'react';
+import { ShieldCheck, Sparkles, Disc3, Radio, CheckCircle2 } from 'lucide-react';
 
 const CLIENTELE_PARTNERS = [
   {
     id: 'folk-hyderabad',
     name: 'Folk Hyderabad',
     tagline: 'Official Regional Music Label',
-    genre: 'Folk & Regional Anthems',
-    desc: 'Telangana’s powerhouse folk label managing chart-topping cultural anthems, festive tracks, and viral regional hits.',
+    genre: 'Telangana Folk & Cultural Hits',
+    feature: 'Official Vevo & Cultural Catalog',
     logo: '/clientele/Folk_Hyderabad.png',
     fallbackLogo: '/clientele/Folk_Hyderabad.png',
     accent: '#F59E0B',
     accentGlow: 'rgba(245, 158, 11, 0.35)',
     accentBg: 'rgba(245, 158, 11, 0.12)',
-    accentBorder: 'rgba(245, 158, 11, 0.3)',
-    features: ['Official Vevo Channel', 'Telangana Folk Catalog', '100% Direct Royalties']
+    accentBorder: 'rgba(245, 158, 11, 0.3)'
+  },
+  {
+    id: 'lycon-digital',
+    name: 'Lycon Digital',
+    tagline: 'Global Digital Media Network',
+    genre: 'Digital Entertainment & Streaming',
+    feature: 'Global Syndication & Rights',
+    logo: '/clientele/channels4_profile.jpg.jpeg',
+    fallbackLogo: '/clientele/channels4_profile.jpg.jpeg',
+    accent: '#00E5FF',
+    accentGlow: 'rgba(0, 229, 255, 0.35)',
+    accentBg: 'rgba(0, 229, 255, 0.12)',
+    accentBorder: 'rgba(0, 229, 255, 0.3)'
+  },
+  {
+    id: 'mc-audios-videos',
+    name: 'M.C. Audios & Videos',
+    tagline: 'Heritage Cinema & Devotional Audio',
+    genre: 'Film Scores & Evergreen Hits',
+    feature: 'Evergreen Cinema Master Catalog',
+    logo: '/clientele/unnamed.jpg.jpeg',
+    fallbackLogo: '/clientele/unnamed.jpg.jpeg',
+    accent: '#EF4444',
+    accentGlow: 'rgba(239, 68, 68, 0.35)',
+    accentBg: 'rgba(239, 68, 68, 0.12)',
+    accentBorder: 'rgba(239, 68, 68, 0.3)'
+  },
+  {
+    id: 'svc-music',
+    name: 'SVC Music',
+    tagline: 'Premier Film & Soundtrack House',
+    genre: 'Cinema Soundtracks & Scores',
+    feature: 'Official Film Soundtrack Distro',
+    logo: '/clientele/channels4_profile (9).jpg.jpeg',
+    fallbackLogo: '/clientele/channels4_profile (9).jpg.jpeg',
+    accent: '#38BDF8',
+    accentGlow: 'rgba(56, 189, 248, 0.35)',
+    accentBg: 'rgba(56, 189, 248, 0.12)',
+    accentBorder: 'rgba(56, 189, 248, 0.3)'
   },
   {
     id: 'vemula-folk-music',
     name: 'Vemula Folk Music',
     tagline: 'Folk & Devotional Record Label',
-    genre: 'Traditional & Folk Audio',
-    desc: 'Premier independent folk music house producing viral cultural ballads, live performance singles & regional releases.',
+    genre: 'Traditional & Cultural Audio',
+    feature: 'Viral Cultural Ballads & Audio Rights',
     logo: '/clientele/vemula_folk_music.jpg',
     fallbackLogo: '/clientele/channels4_profile (5).jpg.jpeg',
-    accent: '#00E5FF',
-    accentGlow: 'rgba(0, 229, 255, 0.35)',
-    accentBg: 'rgba(0, 229, 255, 0.12)',
-    accentBorder: 'rgba(0, 229, 255, 0.3)',
-    features: ['150+ Store Syndication', 'YouTube Content ID', 'Exclusive Audio Rights']
+    accent: '#10B981',
+    accentGlow: 'rgba(16, 185, 129, 0.35)',
+    accentBg: 'rgba(16, 185, 129, 0.12)',
+    accentBorder: 'rgba(16, 185, 129, 0.3)'
   },
   {
     id: 'bhavishya-sri-music',
     name: 'Bhavishya Sri Music',
     tagline: 'Film & Soundtrack Media House',
-    genre: 'Cinematic & Devotional Audio',
-    desc: 'Prominent cinema and devotional record label distributing official movie scores, singles & multi-language catalogs.',
+    genre: 'Cinematic & Devotional Music',
+    feature: 'Multi-Language Sync & Content ID',
     logo: '/clientele/bhavishya_sri_music.jpg',
     fallbackLogo: '/clientele/channels4_profile (7).jpg.jpeg',
-    accent: '#EF4444',
-    accentGlow: 'rgba(239, 68, 68, 0.35)',
-    accentBg: 'rgba(239, 68, 68, 0.12)',
-    accentBorder: 'rgba(239, 68, 68, 0.3)',
-    features: ['Cinematic Distribution', 'Global Sync Monetization', 'Official Label Services']
+    accent: '#F43F5E',
+    accentGlow: 'rgba(244, 63, 94, 0.35)',
+    accentBg: 'rgba(244, 63, 94, 0.12)',
+    accentBorder: 'rgba(244, 63, 94, 0.3)'
+  },
+  {
+    id: 'sabarimala-now',
+    name: 'Sabarimala Now',
+    tagline: 'Spiritual & Devotional Music Network',
+    genre: 'Devotional & Cultural Hymns',
+    feature: 'Devotional Audio & Fingerprinting',
+    logo: '/clientele/channels4_profile (10).jpg.jpeg',
+    fallbackLogo: '/clientele/channels4_profile (10).jpg.jpeg',
+    accent: '#F59E0B',
+    accentGlow: 'rgba(245, 158, 11, 0.35)',
+    accentBg: 'rgba(245, 158, 11, 0.12)',
+    accentBorder: 'rgba(245, 158, 11, 0.3)'
   },
   {
     id: 'independent-creator-studio',
     name: 'Creator Studio Partner',
     tagline: 'Independent Artist Network',
-    genre: 'Indie & Contemporary Hits',
-    desc: 'High-growth independent creator label driving breakout singles, artist collaborations, and short-form audio trends.',
+    genre: 'Indie & Contemporary Releases',
+    feature: 'Automated Splits & Smart Pre-Saves',
     logo: '/clientele/independent_creator_studio.jpg',
     fallbackLogo: '/clientele/avatars-LPXWtISm22CpDzVl-q5A7bA-t1080x1080.jpg.jpeg',
     accent: '#8B5CF6',
     accentGlow: 'rgba(139, 92, 246, 0.35)',
     accentBg: 'rgba(139, 92, 246, 0.12)',
-    accentBorder: 'rgba(139, 92, 246, 0.3)',
-    features: ['Artist Channel Network', 'Automated Split Payouts', 'Smart Pre-Save Links']
+    accentBorder: 'rgba(139, 92, 246, 0.3)'
   }
 ];
 
 export default function ClienteleSection() {
-  const [activePartner, setActivePartner] = useState(null);
-
-  // Repeat 4x for a perfectly seamless 16-item marquee ribbon
-  const marqueeItems = [
-    ...CLIENTELE_PARTNERS,
-    ...CLIENTELE_PARTNERS,
+  // Seamless loop with all 8 partner labels in a single unified row
+  const singleRowPartners = [
     ...CLIENTELE_PARTNERS,
     ...CLIENTELE_PARTNERS
   ];
@@ -76,7 +120,7 @@ export default function ClienteleSection() {
       className="clientele-section"
       style={{
         position: 'relative',
-        padding: '84px 0 80px 0',
+        padding: '76px 0 72px 0',
         background: 'var(--tw-bg-dark)',
         borderTop: '1px solid var(--tw-line)',
         borderBottom: '1px solid var(--tw-line)',
@@ -84,25 +128,26 @@ export default function ClienteleSection() {
         zIndex: 5
       }}
     >
-      {/* Ambient background glows */}
+      {/* Ambient background glow */}
       <div 
         style={{
           position: 'absolute',
-          top: '20%',
+          top: '30%',
           left: '50%',
           transform: 'translateX(-50%)',
-          width: '85%',
-          height: '420px',
-          background: 'radial-gradient(ellipse at center, rgba(0, 229, 255, 0.07) 0%, rgba(139, 92, 246, 0.04) 45%, transparent 70%)',
+          width: '90%',
+          height: '380px',
+          background: 'radial-gradient(ellipse at center, rgba(0, 229, 255, 0.08) 0%, rgba(139, 92, 246, 0.04) 50%, transparent 75%)',
           pointerEvents: 'none',
-          filter: 'blur(60px)',
+          filter: 'blur(70px)',
           zIndex: 0
         }} 
       />
 
-      <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
-        {/* Executive Header */}
-        <div style={{ textAlign: 'center', marginBottom: 54 }}>
+      <div className="container" style={{ position: 'relative', zIndex: 1, maxWidth: 1360, margin: '0 auto', padding: '0 24px' }}>
+        
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: 44 }}>
           <div 
             style={{
               display: 'inline-flex',
@@ -110,7 +155,7 @@ export default function ClienteleSection() {
               justifyContent: 'center',
               gap: 8,
               marginBottom: 14,
-              padding: '6px 16px',
+              padding: '6px 18px',
               borderRadius: 30,
               fontSize: '0.78rem',
               fontWeight: 800,
@@ -131,293 +176,107 @@ export default function ClienteleSection() {
                 display: 'inline-block'
               }}
             />
-            <span>TRUSTED PARTNER LABELS &amp; STUDIOS</span>
+            <span>TRUSTED PARTNER RECORD LABELS &amp; STUDIOS</span>
           </div>
 
           <h2 
             className="clientele-title"
             style={{
               fontFamily: 'var(--tw-font-heading)',
-              fontSize: 'clamp(2.3rem, 4.8vw, 3.8rem)',
+              fontSize: 'clamp(2rem, 3.8vw, 3.2rem)',
               fontWeight: 900,
-              lineHeight: 1.05,
+              lineHeight: 1.15,
               letterSpacing: '-0.03em',
               textTransform: 'uppercase',
               color: 'var(--tw-text-white)',
-              margin: '0 0 16px 0'
+              margin: '0 0 14px 0'
             }}
           >
-            CLIENTELE
+            Continuous Catalog Streaming &amp; Rights Network
           </h2>
 
           <p 
             className="clientele-subtitle"
             style={{
-              fontSize: 'clamp(0.95rem, 1.3vw, 1.12rem)',
+              fontSize: 'clamp(0.92rem, 1.2vw, 1.05rem)',
               color: 'var(--tw-text-dim)',
-              maxWidth: 680,
+              maxWidth: 740,
               margin: '0 auto',
               lineHeight: 1.6
             }}
           >
-            Powering catalog distribution, official channels, and revenue infrastructure for premier record labels and media houses.
+            Powering catalog distribution, automated YouTube Content ID, Vevo channel management, and direct royalty settlement for India's leading record labels and digital media houses.
           </p>
         </div>
 
-        {/* 4 Feature Partner Spotlight Cards Grid */}
+        {/* ── SINGLE ROW CONTINUOUS STREAMING MARQUEE ───────────────── */}
         <div 
-          className="clientele-cards-grid"
+          className="clientele-marquee-wrapper"
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: 24,
-            marginBottom: 48
+            width: '100%',
+            overflow: 'hidden',
+            position: 'relative',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+            maskImage: 'linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)',
+            padding: '12px 0',
+            marginBottom: 38
           }}
         >
-          {CLIENTELE_PARTNERS.map((partner) => {
-            const isHovered = activePartner === partner.id;
-
-            return (
-              <div
-                key={partner.id}
-                onMouseEnter={() => setActivePartner(partner.id)}
-                onMouseLeave={() => setActivePartner(null)}
-                className="clientele-partner-card"
+          <div 
+            className="clientele-marquee-track track-single-row"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 22,
+              width: 'max-content',
+              animation: 'clientele-scroll-single 42s linear infinite'
+            }}
+          >
+            {singleRowPartners.map((client, idx) => (
+              <div 
+                key={`single-${client.id}-${idx}`}
+                className="clientele-card-chip"
                 style={{
-                  position: 'relative',
-                  borderRadius: 22,
-                  padding: '28px 24px',
                   display: 'flex',
-                  flexDirection: 'column',
-                  background: 'rgba(11, 15, 25, 0.75)',
+                  alignItems: 'center',
+                  gap: 16,
+                  padding: '14px 24px 14px 16px',
+                  borderRadius: 20,
+                  background: 'rgba(15, 20, 30, 0.75)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
                   backdropFilter: 'blur(16px)',
                   WebkitBackdropFilter: 'blur(16px)',
-                  border: isHovered 
-                    ? `1px solid ${partner.accent}` 
-                    : '1px solid rgba(255, 255, 255, 0.09)',
-                  boxShadow: isHovered
-                    ? `0 20px 40px -10px ${partner.accentGlow}, 0 4px 12px rgba(0,0,0,0.4)`
-                    : '0 8px 24px rgba(0, 0, 0, 0.25)',
-                  transform: isHovered ? 'translateY(-6px)' : 'translateY(0)',
-                  transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)',
+                  flexShrink: 0,
                   cursor: 'pointer',
-                  overflow: 'hidden'
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                  minWidth: 330
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = client.accent;
+                  e.currentTarget.style.boxShadow = `0 12px 32px -5px ${client.accentGlow}`;
+                  e.currentTarget.style.transform = 'translateY(-3px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.25)';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                {/* Top Glowing Brand Accent Line */}
+                {/* Logo Frame */}
                 <div 
                   style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: 3,
-                    background: `linear-gradient(90deg, transparent, ${partner.accent}, transparent)`,
-                    opacity: isHovered ? 1 : 0.4,
-                    transition: 'opacity 0.3s ease'
-                  }}
-                />
-
-                {/* Top Row: Genre Pill */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                  <span 
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      padding: '4px 12px',
-                      borderRadius: 20,
-                      fontSize: '0.74rem',
-                      fontWeight: 700,
-                      color: partner.accent,
-                      background: partner.accentBg,
-                      border: `1px solid ${partner.accentBorder}`,
-                      letterSpacing: '0.02em'
-                    }}
-                  >
-                    {partner.genre}
-                  </span>
-                </div>
-
-                {/* Centered Logo Frame */}
-                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
-                  <div 
-                    className="clientele-logo-frame"
-                    style={{
-                      width: 86,
-                      height: 86,
-                      borderRadius: '50%',
-                      background: '#FFFFFF',
-                      padding: 4,
-                      boxShadow: isHovered 
-                        ? `0 0 24px ${partner.accentGlow}` 
-                        : '0 6px 18px rgba(0,0,0,0.2)',
-                      border: `2px solid ${isHovered ? partner.accent : 'rgba(255, 255, 255, 0.8)'}`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      transition: 'all 0.35s ease',
-                      transform: isHovered ? 'scale(1.06)' : 'scale(1)'
-                    }}
-                  >
-                    <img 
-                      src={partner.logo} 
-                      alt={partner.name}
-                      loading="lazy"
-                      onError={(e) => {
-                        if (partner.fallbackLogo && e.currentTarget.src !== partner.fallbackLogo) {
-                          e.currentTarget.src = partner.fallbackLogo;
-                        }
-                      }}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: '50%',
-                        objectFit: 'cover'
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* Partner Name & Tagline */}
-                <div style={{ textAlign: 'center', marginBottom: 14 }}>
-                  <h3 
-                    className="clientele-card-name"
-                    style={{
-                      fontSize: '1.24rem',
-                      fontWeight: 800,
-                      color: 'var(--tw-text-white)',
-                      margin: '0 0 6px 0',
-                      letterSpacing: '-0.02em'
-                    }}
-                  >
-                    {partner.name}
-                  </h3>
-                  <div 
-                    style={{
-                      fontSize: '0.82rem',
-                      fontWeight: 700,
-                      color: partner.accent,
-                      letterSpacing: '0.03em'
-                    }}
-                  >
-                    {partner.tagline}
-                  </div>
-                </div>
-
-                {/* Partner Description */}
-                <p 
-                  className="clientele-card-desc"
-                  style={{
-                    fontSize: '0.86rem',
-                    color: 'var(--tw-text-dim)',
-                    lineHeight: 1.55,
-                    textAlign: 'center',
-                    marginBottom: 20,
-                    flexGrow: 1
-                  }}
-                >
-                  {partner.desc}
-                </p>
-
-                {/* Highlights list */}
-                <div 
-                  className="clientele-features-box"
-                  style={{
+                    width: 54,
+                    height: 54,
+                    borderRadius: '50%',
+                    background: '#FFFFFF',
+                    padding: 3,
                     display: 'flex',
-                    flexDirection: 'column',
-                    gap: 8,
-                    padding: '12px 14px',
-                    borderRadius: 14,
-                    background: 'rgba(255, 255, 255, 0.03)',
-                    border: '1px solid rgba(255, 255, 255, 0.06)'
-                  }}
-                >
-                  {partner.features.map((feat, i) => (
-                    <div 
-                      key={i} 
-                      style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        gap: 8, 
-                        fontSize: '0.78rem',
-                        color: 'var(--tw-text-white)',
-                        fontWeight: 600
-                      }}
-                    >
-                      <CheckCircle2 size={13} color={partner.accent} style={{ flexShrink: 0 }} />
-                      <span className="clientele-feature-text">{feat}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Seamless Infinite Marquee Ribbon */}
-        <div style={{ position: 'relative', marginTop: 16 }}>
-          <div 
-            style={{
-              textAlign: 'center',
-              marginBottom: 16,
-              fontSize: '0.75rem',
-              fontWeight: 800,
-              letterSpacing: '0.12em',
-              color: 'var(--tw-text-dim)',
-              textTransform: 'uppercase'
-            }}
-          >
-            Continuous Catalog Streaming &amp; Rights Network
-          </div>
-
-          <div 
-            className="clientele-marquee-wrapper"
-            style={{
-              width: '100%',
-              overflow: 'hidden',
-              position: 'relative',
-              WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
-              maskImage: 'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
-              padding: '8px 0 12px 0'
-            }}
-          >
-            <div 
-              className="clientele-marquee-track"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 20,
-                width: 'max-content',
-                animation: 'clientele-scroll 24s linear infinite'
-              }}
-            >
-              {marqueeItems.map((client, idx) => (
-                <div 
-                  key={`${client.id}-${idx}`}
-                  className="clientele-marquee-chip"
-                  style={{
-                    display: 'inline-flex',
                     alignItems: 'center',
-                    gap: 12,
-                    padding: '8px 18px 8px 10px',
-                    borderRadius: 40,
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    flexShrink: 0,
-                    cursor: 'pointer',
-                    transition: 'all 0.25s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = client.accent;
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                    e.currentTarget.style.transform = 'translateY(0)';
+                    justifyContent: 'center',
+                    boxShadow: `0 0 16px ${client.accentGlow}`,
+                    border: `2px solid ${client.accent}`,
+                    flexShrink: 0
                   }}
                 >
                   <img 
@@ -430,51 +289,114 @@ export default function ClienteleSection() {
                       }
                     }}
                     style={{
-                      width: 32,
-                      height: 32,
+                      width: '100%',
+                      height: '100%',
                       borderRadius: '50%',
-                      objectFit: 'cover',
-                      border: `1.5px solid ${client.accent}`,
-                      background: '#FFFFFF'
+                      objectFit: 'cover'
                     }}
                   />
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                </div>
+
+                {/* Details */}
+                <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
                     <span 
                       className="clientele-chip-name"
                       style={{ 
-                        fontSize: '0.84rem', 
-                        fontWeight: 700, 
+                        fontSize: '1.02rem', 
+                        fontWeight: 800, 
                         color: 'var(--tw-text-white)',
-                        lineHeight: 1.2
+                        letterSpacing: '-0.01em',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
                       }}
                     >
                       {client.name}
                     </span>
-                    <span 
-                      style={{ 
-                        fontSize: '0.68rem', 
-                        color: client.accent, 
-                        fontWeight: 600,
-                        letterSpacing: '0.02em'
-                      }}
-                    >
-                      {client.tagline}
-                    </span>
                   </div>
+
+                  <span 
+                    style={{ 
+                      fontSize: '0.75rem', 
+                      color: client.accent, 
+                      fontWeight: 700,
+                      marginBottom: 4,
+                      letterSpacing: '0.02em',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {client.tagline}
+                  </span>
+
+                  <span 
+                    style={{ 
+                      fontSize: '0.72rem', 
+                      color: 'var(--tw-text-dim)',
+                      fontWeight: 500,
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {client.feature}
+                  </span>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
+
+        {/* ── 3 EXECUTIVE NETWORK METRICS ──────────────────────────── */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: 16,
+          maxWidth: 960,
+          margin: '0 auto',
+          paddingTop: 8
+        }}>
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: 16,
+            padding: '16px 20px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '1.4rem', fontWeight: 900, color: 'var(--tw-cyan)', marginBottom: 2 }}>150+</div>
+            <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--tw-text-dim)' }}>Global Streaming Stores &amp; DSPs</div>
+          </div>
+
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: 16,
+            padding: '16px 20px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#10B981', marginBottom: 2 }}>100%</div>
+            <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--tw-text-dim)' }}>Direct Master Rights &amp; Royalties</div>
+          </div>
+
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: 16,
+            padding: '16px 20px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#F59E0B', marginBottom: 2 }}>24/7</div>
+            <div style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--tw-text-dim)' }}>Automated Audio Fingerprint Rights</div>
+          </div>
+        </div>
+
       </div>
 
       <style>{`
-        @keyframes clientele-scroll {
+        @keyframes clientele-scroll-single {
           0% {
             transform: translateX(0);
           }
           100% {
-            transform: translateX(calc(-100% / 4));
+            transform: translateX(calc(-100% / 2));
           }
         }
 
@@ -497,33 +419,10 @@ export default function ClienteleSection() {
           color: #475569 !important;
         }
 
-        [data-theme="light"] .clientele-partner-card {
+        [data-theme="light"] .clientele-card-chip {
           background: #FFFFFF !important;
           border: 1px solid rgba(0, 0, 0, 0.08) !important;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
-        }
-
-        [data-theme="light"] .clientele-card-name {
-          color: #0F172A !important;
-        }
-
-        [data-theme="light"] .clientele-card-desc {
-          color: #475569 !important;
-        }
-
-        [data-theme="light"] .clientele-features-box {
-          background: #F1F5F9 !important;
-          border: 1px solid rgba(0, 0, 0, 0.05) !important;
-        }
-
-        [data-theme="light"] .clientele-feature-text {
-          color: #1E293B !important;
-        }
-
-        [data-theme="light"] .clientele-marquee-chip {
-          background: #FFFFFF !important;
-          border: 1px solid rgba(0, 0, 0, 0.08) !important;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
         }
 
         [data-theme="light"] .clientele-chip-name {

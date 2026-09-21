@@ -28,9 +28,10 @@ import SignupPage from './pages/SignupPage';
 import ArtistDashboard from './pages/ArtistDashboard';
 import AboutPage from './pages/AboutPage';
 import LegalPage from './pages/LegalPage';
+import ApplyPage from './pages/ApplyPage';
 
 export default function App() {
-  const [currentPath, setCurrentPath] = useState(window.location.pathname || '/');
+  const [currentPath, setCurrentPath] = useState(() => (window.location.pathname || '/') + (window.location.hash || ''));
   const [lang, setLang] = useState('en');
   const [artistName, setArtistName] = useState('Nova Luna');
   const [theme, setTheme] = useState(() => {
@@ -53,13 +54,23 @@ export default function App() {
 
   useEffect(() => {
     const onLocationChange = () => {
-      setCurrentPath(window.location.pathname || '/');
-      window.scrollTo(0, 0);
+      const fullPath = (window.location.pathname || '/') + (window.location.hash || '');
+      setCurrentPath(fullPath);
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        setTimeout(() => {
+          const el = document.getElementById(hash);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 120);
+      } else {
+        window.scrollTo(0, 0);
+      }
     };
 
     window.addEventListener('popstate', onLocationChange);
     return () => window.removeEventListener('popstate', onLocationChange);
   }, []);
+
 
   // Global Scroll Reveal Observer (Echoa / Madverse / Westones high-performance scroll triggers)
   useEffect(() => {
@@ -109,13 +120,28 @@ export default function App() {
   };
 
   const navigate = (path) => {
+    if (path.startsWith('http://') || path.startsWith('https://')) {
+      window.location.href = path;
+      return;
+    }
     window.history.pushState({}, '', path);
     setCurrentPath(path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const [, hash] = path.split('#');
+    if (hash) {
+      setTimeout(() => {
+        const el = document.getElementById(hash);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const renderContent = () => {
-    switch (currentPath) {
+    const basePath = (currentPath || '/').split('#')[0];
+    switch (basePath) {
       case '/pricing':
         return <PricingPage onNavigate={navigate} theme={theme} />;
       case '/reviews':
@@ -212,6 +238,10 @@ export default function App() {
             onLangChange={(newLang) => setLang(newLang)}
           />
         );
+      case '/apply':
+      case '/try-for-free':
+      case '/join':
+        return <ApplyPage onNavigate={navigate} theme={theme} onToggleTheme={toggleTheme} />;
       case '/dashboard':
       case '/artist/dashboard':
         return (
@@ -234,11 +264,11 @@ export default function App() {
     }
   };
 
-  const isLoginPage = currentPath === '/login' || currentPath === '/signup';
+  const isCleanPage = currentPath === '/login' || currentPath === '/signup' || currentPath === '/apply' || currentPath === '/try-for-free';
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      {!isLoginPage && (
+      {!isCleanPage && (
         <Navbar
           currentPath={currentPath}
           onNavigate={navigate}
@@ -255,8 +285,8 @@ export default function App() {
         {renderContent()}
       </main>
 
-      {/* Hide full footer in dashboard view and login page for a clean immersive feel */}
-      {currentPath !== '/artist/dashboard' && !isLoginPage && (
+      {/* Hide full footer in dashboard view, apply page, and login page for a clean immersive feel */}
+      {currentPath !== '/artist/dashboard' && !isCleanPage && (
         <Footer onNavigate={navigate} theme={theme} useEmblemAsset={useEmblemAsset} />
       )}
     </div>

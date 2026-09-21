@@ -40,32 +40,7 @@ function useCountUp(target, startAnimation = true, duration = 1200) {
 export default function MonetizePage({ onNavigate, theme = 'dark' }) {
   const isLight = theme === 'light';
 
-  // 3D Parallax Tilt for Hero / Spotlight Card
-  const [heroTilt, setHeroTilt] = useState({ rotX: 0, rotY: 0, glareX: 50, glareY: 50 });
-  const [isHeroHovered, setIsHeroHovered] = useState(false);
-  const cardRef = useRef(null);
 
-  const handleCardMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const normX = (x / rect.width - 0.5) * 2;
-    const normY = (y / rect.height - 0.5) * 2;
-
-    setHeroTilt({
-      rotX: -normY * 12,
-      rotY: normX * 14,
-      glareX: Math.round((x / rect.width) * 100),
-      glareY: Math.round((y / rect.height) * 100)
-    });
-    setIsHeroHovered(true);
-  };
-
-  const handleCardMouseLeave = () => {
-    setIsHeroHovered(false);
-    setHeroTilt({ rotX: 0, rotY: 0, glareX: 50, glareY: 50 });
-  };
 
   // Interactive Splits Simulator State
   const [artistSplit, setArtistSplit] = useState(60);
@@ -230,7 +205,7 @@ export default function MonetizePage({ onNavigate, theme = 'dark' }) {
 
           <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
             <button
-              onClick={() => onNavigate('/signup')}
+              onClick={() => onNavigate('/apply')}
               className="btn-cyan monetize-hero-cta"
               style={{ padding: '16px 36px', fontSize: '1.02rem', fontWeight: 700 }}
             >
@@ -251,150 +226,7 @@ export default function MonetizePage({ onNavigate, theme = 'dark' }) {
           </div>
         </div>
 
-        {/* ── 2. LIVE 3D INTERACTIVE MONETIZATION MATRIX CARD ────────── */}
-        <div
-          ref={cardRef}
-          onMouseMove={handleCardMouseMove}
-          onMouseLeave={handleCardMouseLeave}
-          className="monetize-3d-console card-shimmer-sweep"
-          style={{
-            transform: isHeroHovered
-              ? `perspective(1000px) rotateX(${heroTilt.rotX}deg) rotateY(${heroTilt.rotY}deg) scale3d(1.01, 1.01, 1.01)`
-              : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
-            transition: isHeroHovered ? 'transform 0.12s ease-out' : 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-            borderRadius: 26,
-            padding: '36px 34px',
-            background: isLight
-              ? 'linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 249, 255, 0.92) 100%)'
-              : 'linear-gradient(135deg, rgba(14, 22, 38, 0.95) 0%, rgba(8, 12, 20, 0.98) 100%)',
-            border: isLight ? '1px solid rgba(0, 126, 167, 0.22)' : '1px solid rgba(0, 229, 255, 0.35)',
-            boxShadow: isLight
-              ? '0 24px 50px -15px rgba(0, 126, 167, 0.15)'
-              : '0 30px 60px -20px rgba(0, 0, 0, 0.8), 0 0 35px -10px rgba(0, 229, 255, 0.22)',
-            position: 'relative',
-            overflow: 'hidden',
-            marginBottom: 68
-          }}
-        >
-          {/* Specular Glare Movement Overlay */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              pointerEvents: 'none',
-              background: `radial-gradient(circle at ${heroTilt.glareX}% ${heroTilt.glareY}%, ${isLight ? 'rgba(0, 126, 167, 0.12)' : 'rgba(0, 229, 255, 0.18)'} 0%, transparent 55%)`,
-              opacity: isHeroHovered ? 1 : 0,
-              transition: 'opacity 0.3s ease'
-            }}
-          />
 
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: 16,
-            marginBottom: 28,
-            borderBottom: isLight ? '1px solid rgba(0, 0, 0, 0.08)' : '1px solid rgba(255, 255, 255, 0.08)',
-            paddingBottom: 20
-          }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 10,
-                  background: isLight ? 'rgba(0, 126, 167, 0.12)' : 'rgba(0, 229, 255, 0.15)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: isLight ? '#007EA7' : 'var(--tw-cyan)'
-                }}>
-                  <BarChart3 size={20} />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 800, margin: 0, color: isLight ? '#0F172A' : '#FFFFFF' }}>
-                    Multi-Channel Royalty Consolidation
-                  </h3>
-                  <p style={{ margin: '2px 0 0', fontSize: '0.82rem', color: isLight ? '#475569' : 'var(--tw-text-dim)' }}>
-                    Real-time aggregated revenue pipeline across 150+ stores, societies, and sync networks.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{
-                background: isLight ? 'rgba(16, 185, 129, 0.12)' : 'rgba(16, 185, 129, 0.18)',
-                border: '1px solid #10B981',
-                padding: '6px 14px',
-                borderRadius: 50,
-                fontSize: '0.8rem',
-                fontWeight: 700,
-                color: '#10B981',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6
-              }}>
-                <span className="pulse-dot" style={{ background: '#10B981', boxShadow: '0 0 8px #10B981' }} />
-                <span>100% ARTIST OWNERSHIP</span>
-              </div>
-            </div>
-          </div>
-
-          {/* 5 Revenue Streams Progress Bars */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
-            {[
-              { label: 'DSP Streams (Spotify / Apple / Amazon)', share: '45%', amount: '$3,840.00', color: '#00E5FF', icon: Music },
-              { label: 'Global Publishing (Mechanicals & Broadcast)', share: '24%', amount: '$2,048.00', color: '#10B981', icon: Globe2 },
-              { label: 'Sync Brief Placements (TV / Commercials)', share: '18%', amount: '$1,536.00', color: '#C084FC', icon: Clapperboard },
-              { label: 'YouTube Content ID Fingerprint Claims', share: '9%', amount: '$768.00', color: '#F87171', icon: Video },
-              { label: 'Automated Collaborator Splits (Net)', share: '4%', amount: '$341.00', color: '#FBBF24', icon: Split }
-            ].map((stream, idx) => {
-              const Icon = stream.icon;
-              return (
-                <div key={idx} className="monetize-stream-box" style={{
-                  padding: '18px 20px',
-                  borderRadius: 16,
-                  background: isLight ? 'rgba(0, 0, 0, 0.02)' : 'rgba(255, 255, 255, 0.03)',
-                  border: isLight ? '1px solid rgba(0, 0, 0, 0.06)' : '1px solid rgba(255, 255, 255, 0.06)',
-                  transition: 'all 0.25s ease'
-                }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <Icon size={16} color={stream.color} />
-                      <span style={{ fontSize: '0.84rem', fontWeight: 700, color: isLight ? '#1E293B' : '#E2E8F0' }}>
-                        {stream.label}
-                      </span>
-                    </div>
-                    <span style={{ fontSize: '0.88rem', fontWeight: 800, color: stream.color }}>
-                      {stream.amount}
-                    </span>
-                  </div>
-                  <div style={{
-                    width: '100%',
-                    height: 6,
-                    borderRadius: 4,
-                    background: isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 255, 255, 0.08)',
-                    overflow: 'hidden',
-                    position: 'relative'
-                  }}>
-                    <div
-                      className="monetize-bar-fill"
-                      style={{
-                        width: stream.share,
-                        height: '100%',
-                        borderRadius: 4,
-                        background: stream.color,
-                        boxShadow: `0 0 10px ${stream.color}66`
-                      }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
 
         {/* ── 3. LIVE SYNC PLACEMENTS TICKER ────────────────────────── */}
         <div style={{
@@ -841,7 +673,7 @@ export default function MonetizePage({ onNavigate, theme = 'dark' }) {
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 14, flexWrap: 'wrap' }}>
             <button
-              onClick={() => onNavigate('/signup')}
+              onClick={() => onNavigate('/apply')}
               className="btn-cyan"
               style={{ padding: '16px 36px', fontSize: '1rem', fontWeight: 700 }}
             >

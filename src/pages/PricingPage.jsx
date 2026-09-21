@@ -3,10 +3,10 @@ import { PRICING_PLANS, COMPARISON_DATA } from '../data/content';
 import { Check, X, HelpCircle, Star, ArrowRight, ShieldCheck, ChevronDown, Sparkles, Zap, Layers } from 'lucide-react';
 
 const CURRENCIES = {
-  USD: { symbol: '$', rate: 1 },
-  EUR: { symbol: '€', rate: 0.92 },
-  GBP: { symbol: '£', rate: 0.79 },
-  INR: { symbol: '₹', rate: 83 }
+  INR: { symbol: '₹', starter: 799, pro: 1999 },
+  USD: { symbol: '$', starter: 9.99, pro: 24.99 },
+  EUR: { symbol: '€', starter: 9.49, pro: 23.49 },
+  GBP: { symbol: '£', starter: 7.99, pro: 19.99 }
 };
 
 const FAQS = [
@@ -20,7 +20,7 @@ const FAQS = [
   },
   {
     q: "How does the Labels plan work?",
-    a: "The Labels plan allows managers, record labels, and collectives to release unlimited music for 5 up to 40+ artists under custom imprint names, with individual collaborator accounting statements and separate artist permissions."
+    a: "The Labels tier is designed for independent record labels, managers, and rosters releasing catalog at scale with unlimited artist profiles. Because of our dedicated A&R managers, tailored royalty accounting, and direct DSP pitching, labels apply directly and are reviewed within 24 hours."
   },
   {
     q: "Can I upgrade or switch plans at any time?",
@@ -33,8 +33,7 @@ const FAQS = [
 ];
 
 export default function PricingPage({ onNavigate, theme = 'dark' }) {
-  const [currency, setCurrency] = useState('USD');
-  const [labelIndex, setLabelIndex] = useState(0);
+  const [currency, setCurrency] = useState('INR');
   const [openFaq, setOpenFaq] = useState(null);
   const [pricePulse, setPricePulse] = useState(false);
 
@@ -51,14 +50,14 @@ export default function PricingPage({ onNavigate, theme = 'dark' }) {
   const [cardTilt, setCardTilt] = useState({ 0: { x: 0, y: 0 }, 1: { x: 0, y: 0 }, 2: { x: 0, y: 0 } });
 
   const isLight = theme === 'light';
-  const curr = CURRENCIES[currency];
+  const curr = CURRENCIES[currency] || CURRENCIES.INR;
 
-  const labelTiers = PRICING_PLANS[2].sliderTiers;
-  const currentLabelTier = labelTiers[labelIndex];
-
-  const formatPrice = (usdAmount) => {
-    const converted = Math.round(usdAmount * curr.rate);
-    return `${curr.symbol}${converted}`;
+  const formatPrice = (planKey) => {
+    const val = curr[planKey];
+    if (typeof val === 'number') {
+      return `${curr.symbol}${val.toLocaleString()}`;
+    }
+    return '';
   };
 
   // Re-triggerable Intersection & Scroll Observer
@@ -327,16 +326,16 @@ export default function PricingPage({ onNavigate, theme = 'dark' }) {
                   fontFamily: "'Space Grotesk', sans-serif",
                   animation: pricePulse ? 'pricePop 0.35s ease' : 'none'
                 }}>
-                  {formatPrice(19)}
+                  {formatPrice('starter')}
                 </span>
                 <span style={{ fontSize: '1.05rem', color: isLight ? '#64748B' : 'var(--tw-text-dim)' }}>/year</span>
               </div>
               <p style={{ fontSize: '0.92rem', color: isLight ? '#475569' : 'var(--tw-text-dim)', lineHeight: 1.6, marginBottom: 30 }}>
-                Unlimited uploads to Spotify, Apple, and 150+ stores for 1 artist.
+                Unlimited releases for 1 Artist profile to 150+ stores globally.
               </p>
 
               <button
-                onClick={() => onNavigate('/signup')}
+                onClick={() => onNavigate('/apply')}
                 style={{ 
                   width: '100%', padding: '14px', borderRadius: 9999,
                   background: isLight ? '#F1F5F9' : 'rgba(255, 255, 255, 0.05)',
@@ -419,16 +418,16 @@ export default function PricingPage({ onNavigate, theme = 'dark' }) {
                   fontFamily: "'Space Grotesk', sans-serif",
                   animation: pricePulse ? 'pricePop 0.35s ease' : 'none'
                 }}>
-                  {formatPrice(59)}
+                  {formatPrice('pro')}
                 </span>
                 <span style={{ fontSize: '1.05rem', color: isLight ? '#64748B' : 'var(--tw-text-dim)' }}>/year</span>
               </div>
               <p style={{ fontSize: '0.92rem', color: isLight ? '#475569' : 'var(--tw-text-dim)', lineHeight: 1.6, marginBottom: 30 }}>
-                Unlock sync licensing briefs, global publishing royalties, and 2 artist profiles.
+                Unlimited releases for 3 Artist profiles with sync, publishing, and priority support.
               </p>
 
               <button
-                onClick={() => onNavigate('/signup')}
+                onClick={() => onNavigate('/apply')}
                 style={{ 
                   width: '100%', padding: '15px', borderRadius: 9999,
                   background: 'linear-gradient(135deg, #00F2FE 0%, #00E5FF 50%, #0EA5E9 100%)',
@@ -477,65 +476,62 @@ export default function PricingPage({ onNavigate, theme = 'dark' }) {
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '0.82rem', fontWeight: 800, color: 'var(--tw-lime)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
                 // LABELS &amp; ROSTERS
               </div>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, margin: '18px 0 10px' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, margin: '18px 0 10px' }}>
                 <span style={{ 
-                  fontSize: '3.4rem', fontWeight: 900, 
+                  fontSize: 'clamp(2.3rem, 3.8vw, 3rem)', fontWeight: 900, 
                   color: isLight ? '#0F172A' : 'var(--tw-text-white)', 
                   fontFamily: "'Space Grotesk', sans-serif",
+                  letterSpacing: '-0.02em',
                   animation: pricePulse ? 'pricePop 0.35s ease' : 'none'
                 }}>
-                  {formatPrice(currentLabelTier.price)}
+                  Need To Apply
                 </span>
-                <span style={{ fontSize: '1.05rem', color: isLight ? '#64748B' : 'var(--tw-text-dim)' }}>/year</span>
               </div>
+              <p style={{ fontSize: '0.92rem', color: isLight ? '#475569' : 'var(--tw-text-dim)', lineHeight: 1.6, marginBottom: 20 }}>
+                Bespoke infrastructure for independent record labels, managers, and management rosters.
+              </p>
 
-              {/* Interactive Label Slider */}
+              {/* Roster & Enterprise Label Box */}
               <div style={{
-                background: isLight ? '#F1F5F9' : 'var(--tw-bg-surface)',
-                border: `1px solid ${isLight ? 'rgba(0,0,0,0.08)' : 'var(--tw-line)'}`,
+                background: isLight ? '#F8FAFC' : 'rgba(157, 255, 0, 0.04)',
+                border: `1px solid ${isLight ? 'rgba(0,0,0,0.08)' : 'rgba(157, 255, 0, 0.22)'}`,
                 borderRadius: 16,
-                padding: '18px',
-                margin: '18px 0 26px'
+                padding: '16px 18px',
+                margin: '18px 0 24px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 8
               }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.88rem', fontWeight: 800, marginBottom: 10 }}>
-                  <span style={{ color: isLight ? '#64748B' : 'var(--tw-text-dim)' }}>Roster Size:</span>
-                  <span style={{ color: 'var(--tw-lime)', background: 'rgba(157, 255, 0, 0.1)', padding: '2px 8px', borderRadius: 6 }}>
-                    Up to {currentLabelTier.count} artists
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span style={{ fontSize: '0.84rem', fontWeight: 800, color: isLight ? '#0F172A' : '#FFFFFF', display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <ShieldCheck size={16} color="var(--tw-lime)" />
+                    Verified Label Access
+                  </span>
+                  <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--tw-lime)', background: 'rgba(157, 255, 0, 0.12)', padding: '2px 8px', borderRadius: 9999, letterSpacing: '0.04em' }}>
+                    CUSTOM ROSTERS
                   </span>
                 </div>
-                <input
-                  type="range"
-                  min="0"
-                  max={labelTiers.length - 1}
-                  step="1"
-                  value={labelIndex}
-                  onChange={(e) => setLabelIndex(Number(e.target.value))}
-                  style={{
-                    width: '100%',
-                    accentColor: 'var(--tw-lime)',
-                    cursor: 'pointer'
-                  }}
-                />
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.74rem', color: isLight ? '#94A3B8' : 'var(--tw-text-muted)', marginTop: 6, fontWeight: 700 }}>
-                  <span>5 artists</span>
-                  <span>15</span>
-                  <span>40+ artists</span>
-                </div>
+                <p style={{ fontSize: '0.8rem', color: isLight ? '#64748B' : 'var(--tw-text-dim)', margin: 0, lineHeight: 1.5 }}>
+                  Unlimited artist profiles, dedicated A&amp;R rep, bulk collaborator splits, and custom imprint metadata.
+                </p>
               </div>
 
               <button
-                onClick={() => onNavigate('/signup')}
+                onClick={() => onNavigate('/apply')}
                 style={{ 
                   width: '100%', padding: '14px', borderRadius: 9999,
-                  background: 'transparent',
-                  border: '1.5px solid var(--tw-lime)',
-                  color: 'var(--tw-lime)', fontWeight: 800, fontSize: '0.92rem',
-                  cursor: 'pointer', marginBottom: 32, transition: 'all 0.25s ease'
+                  background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                  border: 'none',
+                  color: '#FFFFFF', fontWeight: 800, fontSize: '0.94rem',
+                  cursor: 'pointer', marginBottom: 32, transition: 'all 0.25s ease',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                  boxShadow: '0 4px 20px rgba(16, 185, 129, 0.35)'
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(157, 255, 0, 0.12)'; e.currentTarget.style.boxShadow = '0 0 20px rgba(157, 255, 0, 0.25)'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.boxShadow = 'none'; }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 28px rgba(16, 185, 129, 0.5)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(16, 185, 129, 0.35)'; }}
               >
-                Choose Labels ({currentLabelTier.count} Artists)
+                <span>Apply for Label Account</span>
+                <ArrowRight size={16} />
               </button>
 
               <div style={{ fontSize: '0.82rem', fontWeight: 800, color: isLight ? '#0F172A' : 'var(--tw-text-white)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 18 }}>

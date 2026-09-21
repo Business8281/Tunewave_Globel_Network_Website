@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Building2, Mail, Clock, MapPin, Globe, ShieldCheck,
   Sparkles, Award, Users, ArrowRight, CheckCircle2,
@@ -13,6 +13,27 @@ export default function AboutPage({ onNavigate, theme = 'dark' }) {
   const [contactEmail, setContactEmail] = useState('');
   const [contactTopic, setContactTopic] = useState('distribution');
   const [contactMessage, setContactMessage] = useState('');
+
+  useEffect(() => {
+    const checkAndScroll = () => {
+      const hash = window.location.hash.replace('#', '');
+      const pathname = window.location.pathname;
+      if (
+        hash === 'send-an-inquiry' ||
+        hash === 'inquiry' ||
+        hash === 'contact' ||
+        pathname === '/contact'
+      ) {
+        const el = document.getElementById('send-an-inquiry') || document.getElementById('inquiry') || document.getElementById('company-details-card');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    };
+
+    const timer = setTimeout(checkAndScroll, 120);
+    return () => clearTimeout(timer);
+  }, []);
 
   const [heroTilt, setHeroTilt] = useState({ rotX: 0, rotY: 0, posX: 0, posY: 0 });
   const [isHeroHovered, setIsHeroHovered] = useState(false);
@@ -207,7 +228,7 @@ export default function AboutPage({ onNavigate, theme = 'dark' }) {
 
             <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
               <button
-                onClick={() => onNavigate('/signup')}
+                onClick={() => onNavigate('/apply')}
                 className="btn-cyan"
                 style={{ padding: '16px 36px', fontSize: '1rem', fontWeight: 700 }}
               >
@@ -523,16 +544,21 @@ export default function AboutPage({ onNavigate, theme = 'dark' }) {
             </div>
 
             {/* Right Interactive Contact & Inquiries Card */}
-            <div className="glass-panel card-shimmer-sweep" style={{
-              padding: '40px 36px',
-              borderRadius: 24,
-              border: '1px solid var(--tw-line-bright)',
-              background: isLight ? '#FFFFFF' : 'rgba(19, 27, 42, 0.65)',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between'
-            }}>
-              <div>
+            <div
+              id="send-an-inquiry"
+              className="glass-panel card-shimmer-sweep"
+              style={{
+                scrollMarginTop: '110px',
+                padding: '40px 36px',
+                borderRadius: 24,
+                border: '1px solid var(--tw-line-bright)',
+                background: isLight ? '#FFFFFF' : 'rgba(19, 27, 42, 0.65)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}
+            >
+              <div id="inquiry" style={{ scrollMarginTop: '110px' }}>
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
                   <span className="pill-badge" style={{ color: 'var(--tw-cyan)' }}>GET IN TOUCH</span>
                 </div>
@@ -841,31 +867,45 @@ export default function AboutPage({ onNavigate, theme = 'dark' }) {
             }}
           >
             {/* 3D Background Stage */}
-            <div className="promo-cta-3d-stage">
+            <div className="promo-cta-3d-stage" style={{ pointerEvents: 'none' }}>
               <img 
                 src="/about_join_background%20image.png" 
                 alt="Join Tunewave 3D Stage" 
-                className="promo-cta-3d-art"
+                className="promo-cta-3d-art" 
                 loading="lazy"
+                style={{ pointerEvents: 'none' }}
               />
             </div>
 
             {/* Atmospheric Depth Mask */}
-            <div className="promo-cta-3d-atmosphere" />
+            <div className="promo-cta-3d-atmosphere" style={{ pointerEvents: 'none' }} />
 
             {/* Dynamic Cursor Spotlight */}
-            <div className="promo-cta-3d-spotlight" />
+            <div className="promo-cta-3d-spotlight" style={{ pointerEvents: 'none' }} />
 
             {/* Floating 3D Music Particles */}
-            <div className="promo-cta-float-note promo-cta-note-left">
-              <div className="promo-glyph-badge">♪</div>
+            <div className="promo-cta-float-note promo-cta-note-left" style={{ pointerEvents: 'none' }}>
+              <div className="promo-glyph-badge" style={{ pointerEvents: 'none' }}>♪</div>
             </div>
-            <div className="promo-cta-float-note promo-cta-note-right">
-              <div className="promo-glyph-badge">♫</div>
+            <div className="promo-cta-float-note promo-cta-note-right" style={{ pointerEvents: 'none' }}>
+              <div className="promo-glyph-badge" style={{ pointerEvents: 'none' }}>♫</div>
             </div>
 
             {/* Foreground Content */}
-            <div className="promo-cta-content" style={{ padding: '56px 44px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24 }}>
+            <div 
+              className="promo-cta-content" 
+              style={{ 
+                padding: '56px 44px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between', 
+                flexWrap: 'wrap', 
+                gap: 24,
+                position: 'relative',
+                zIndex: 30,
+                pointerEvents: 'auto'
+              }}
+            >
               <div>
                 <div style={{ fontSize: '0.85rem', fontWeight: 800, color: 'var(--tw-cyan)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>
                   Join Tunewave Global Network
@@ -877,19 +917,47 @@ export default function AboutPage({ onNavigate, theme = 'dark' }) {
                   Start releasing music with 100% royalty retention and direct store pitching.
                 </p>
               </div>
-              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', position: 'relative', zIndex: 40, pointerEvents: 'auto' }}>
                 <button
-                  onClick={() => onNavigate('/signup')}
-                  className="btn-cyan"
-                  style={{ padding: '16px 36px', fontSize: '1rem', fontWeight: 700 }}
+                  id="about-cta-signup-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onNavigate) onNavigate('/apply');
+                    else window.location.href = '/apply';
+                  }}
+                  className="btn-cyan glow-on-hover"
+                  style={{ 
+                    padding: '16px 36px', 
+                    fontSize: '1rem', 
+                    fontWeight: 700, 
+                    cursor: 'pointer',
+                    position: 'relative',
+                    zIndex: 50,
+                    pointerEvents: 'auto',
+                    userSelect: 'none'
+                  }}
                 >
                   <span>Sign up free</span>
                   <ArrowRight size={18} className="btn-icon-hover" />
                 </button>
                 <button
-                  onClick={() => onNavigate('/pricing')}
+                  id="about-cta-plans-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onNavigate) onNavigate('/apply');
+                    else window.location.href = '/apply';
+                  }}
                   className="btn-glass"
-                  style={{ padding: '16px 30px', fontSize: '1rem', fontWeight: 600 }}
+                  style={{ 
+                    padding: '16px 30px', 
+                    fontSize: '1rem', 
+                    fontWeight: 600, 
+                    cursor: 'pointer',
+                    position: 'relative',
+                    zIndex: 50,
+                    pointerEvents: 'auto',
+                    userSelect: 'none'
+                  }}
                 >
                   <span>View Plans</span>
                 </button>

@@ -361,7 +361,7 @@ export default function GetSignedPage({ onNavigate, theme = "dark" }) {
               Tunewave Label Services spots the next wave of independent artists and offers catalog advances, A&R support, global radio pitching, and sync representation — all without surrendering your masters.
             </p>
             <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-              <button onClick={() => onNavigate && onNavigate("/signup")} style={{ ...brandBtn, padding: "16px 32px" }}
+              <button onClick={() => onNavigate && onNavigate("/apply")} style={{ ...brandBtn, padding: "16px 32px" }}
                 onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px) scale(1.02)"; e.currentTarget.style.boxShadow = "0 0 50px rgba(0,229,255,0.5)"; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0) scale(1)"; e.currentTarget.style.boxShadow = "0 0 32px rgba(0,229,255,0.3)"; }}
               >
@@ -484,7 +484,7 @@ export default function GetSignedPage({ onNavigate, theme = "dark" }) {
           <p style={{ fontSize: "1.15rem", color: "rgba(255, 255, 255, 0.9)", marginBottom: 38, maxWidth: 560, margin: "0 auto 38px", lineHeight: 1.7 }}>
             Tunewave gives you full creative freedom while a world-class label team works behind the scenes to amplify your reach.
           </p>
-          <button onClick={() => onNavigate && onNavigate("/signup")} style={{ ...brandBtn, padding: "18px 40px", boxShadow: "0 0 45px rgba(0,229,255,0.35)" }}
+          <button onClick={() => onNavigate && onNavigate("/apply")} style={{ ...brandBtn, padding: "18px 40px", boxShadow: "0 0 45px rgba(0,229,255,0.35)" }}
             onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-3px) scale(1.02)"; e.currentTarget.style.boxShadow = "0 0 65px rgba(0,229,255,0.55)"; }}
             onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0) scale(1)"; e.currentTarget.style.boxShadow = "0 0 45px rgba(0,229,255,0.35)"; }}
           >
