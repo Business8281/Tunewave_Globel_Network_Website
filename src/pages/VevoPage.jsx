@@ -405,62 +405,93 @@ export default function VevoPage({ onNavigate, theme }) {
                 <div style={{
                   position: 'relative',
                   paddingTop: '56.25%',
-                  background: 'linear-gradient(135deg, #0d1527, #060a12)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
+                  background: '#000',
+                  overflow: 'hidden'
                 }}>
-                  {/* Vevo Badge in player */}
-                  <div style={{
-                    position: 'absolute',
-                    top: 16,
-                    right: 16,
-                    padding: '4px 10px',
-                    borderRadius: 6,
-                    background: 'rgba(255, 255, 255, 0.92)',
-                    color: '#040D1A',
-                    fontWeight: 900,
-                    fontSize: '0.75rem',
-                    letterSpacing: '0.12em',
-                    boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
-                  }}>
-                    VEVO
-                  </div>
+                  {!isPlaying ? (
+                    <div
+                      onClick={() => setIsPlaying(true)}
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'linear-gradient(135deg, #0d1527, #060a12)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {/* Vevo Badge in player */}
+                      <div style={{
+                        position: 'absolute',
+                        top: 16,
+                        right: 16,
+                        padding: '4px 10px',
+                        borderRadius: 6,
+                        background: 'rgba(255, 255, 255, 0.92)',
+                        color: '#040D1A',
+                        fontWeight: 900,
+                        fontSize: '0.75rem',
+                        letterSpacing: '0.12em',
+                        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+                        zIndex: 2
+                      }}>
+                        VEVO
+                      </div>
 
-                  {/* Play Button */}
-                  <div
-                    onClick={() => setIsPlaying(!isPlaying)}
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      width: 64,
-                      height: 64,
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #00F2FE 0%, #00E5FF 100%)',
-                      color: "#040D1A",
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      cursor: 'pointer',
-                      boxShadow: '0 0 30px rgba(0, 229, 255, 0.6)',
-                      transition: 'transform 0.2s ease'
-                    }}
-                  >
-                    <Play size={28} fill="#040D1A" color="#040D1A" style={{ marginLeft: 4 }} />
-                  </div>
+                      {/* Play Button */}
+                      <div
+                        style={{
+                          width: 64,
+                          height: 64,
+                          borderRadius: '50%',
+                          background: 'linear-gradient(135deg, #00F2FE 0%, #00E5FF 100%)',
+                          color: "#040D1A",
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          boxShadow: '0 0 30px rgba(0, 229, 255, 0.6)',
+                          transition: 'transform 0.2s ease',
+                          zIndex: 2
+                        }}
+                      >
+                        <Play size={28} fill="#040D1A" color="#040D1A" style={{ marginLeft: 4 }} />
+                      </div>
 
-                  <div style={{
-                    position: 'absolute',
-                    bottom: 12,
-                    left: 16,
-                    color: "#FFFFFF",
-                    fontSize: '0.8rem',
-                    fontWeight: 700
-                  }}>
-                    4K ULTRA HD · OFFICIAL ARTIST CHANNEL
-                  </div>
+                      <div style={{
+                        position: 'absolute',
+                        bottom: 12,
+                        left: 16,
+                        color: "#FFFFFF",
+                        fontSize: '0.8rem',
+                        fontWeight: 700,
+                        zIndex: 2
+                      }}>
+                        4K ULTRA HD · OFFICIAL ARTIST CHANNEL
+                      </div>
+                    </div>
+                  ) : (
+                    <video
+                      controls
+                      autoPlay
+                      playsInline
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        background: '#000'
+                      }}
+                    >
+                      <source src="/Video/tunewave_promo.webm" type="video/webm" />
+                      <source src="/Video/tunewave_promo.mp4" type="video/mp4" />
+                      <source src="/Video/TuneWave_Global_Network_promotio%E2%80%A6_1080p_20260921122615_gwr_video_mvp.webm" type="video/webm" />
+                      <source src="/Video/TuneWave_Global_Network_promotio%E2%80%A6_1080p_20260921122615_gwr_video_mvp.mp4" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  )}
                 </div>
 
                 {/* Video Info Bar */}

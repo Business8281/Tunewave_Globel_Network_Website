@@ -2124,13 +2124,18 @@ export default function PublishingPage({ onNavigate, theme }) {
                   </div>
                 </div>
               ) : (
-                <iframe 
-                  src="https://www.youtube.com/embed/b6vGSQkFyMo?autoplay=1&rel=0" 
-                  title="Tunewave Sync Showreel"
-                  style={{ width: '100%', height: '100%', border: 'none' }}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen 
-                />
+                <video 
+                  controls 
+                  autoPlay 
+                  playsInline 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', background: '#000' }}
+                >
+                  <source src="/Video/tunewave_promo.webm" type="video/webm" />
+                  <source src="/Video/tunewave_promo.mp4" type="video/mp4" />
+                  <source src="/Video/TuneWave_Global_Network_promotio%E2%80%A6_1080p_20260921122615_gwr_video_mvp.webm" type="video/webm" />
+                  <source src="/Video/TuneWave_Global_Network_promotio%E2%80%A6_1080p_20260921122615_gwr_video_mvp.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
               )}
             </div>
           </div>
